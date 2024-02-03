@@ -1,4 +1,4 @@
-package com.solvd.laba.carina.domain;
+package com.solvd.laba.carina.api.github.domain;
 
 public class User {
     private String username;

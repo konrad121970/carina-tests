@@ -1,6 +1,6 @@
 package com.solvd.laba.carina.api.github;
 
-import com.solvd.laba.carina.domain.User;
+import com.solvd.laba.carina.api.github.domain.User;
 import com.zebrunner.carina.api.apitools.validation.JsonComparatorContext;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import org.testng.annotations.Test;
@@ -14,7 +14,6 @@ public class UserTest {
 
     @Test
     public void verifyGetUserByUsername(){
-
         User user = new User();
         user.setUsername("konrad121970");
         user.setFirstName("Konrad");
