@@ -1,4 +1,4 @@
-package com.solvd.laba.carina.api.fakestoreapi.domain;
+package com.solvd.laba.carina.api.fakestoreapi.domain.product;
 
 public class Rating {
     private double rate;

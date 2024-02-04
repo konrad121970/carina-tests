@@ -1,8 +1,7 @@
 package com.solvd.laba.carina.api.fakestoreapi;
 
-import com.solvd.laba.carina.api.fakestoreapi.domain.Product;
+import com.solvd.laba.carina.api.fakestoreapi.domain.product.Product;
 import com.zebrunner.agent.core.registrar.domain.ObjectMapperImpl;
-import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import kong.unirest.ObjectMapper;
 import org.testng.annotations.Test;
 
@@ -22,9 +21,8 @@ public class ProductTest {
         String response = getSingleProduct.callAPIExpectSuccess().asString();
         ObjectMapper objectMapper = new ObjectMapperImpl();
 
-        Product product1 = objectMapper.readValue(response, Product.class);
+        product = objectMapper.readValue(response, Product.class);
 
         getSingleProduct.validateResponse();
-
     }
 }
