@@ -1,23 +1,30 @@
 package com.solvd.laba.carina.api.fakestoreapi;
 
-import com.beust.ah.A;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.Address;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.Geolocation;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.Name;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.User;
-import com.zebrunner.agent.core.registrar.domain.ObjectMapperImpl;
+import com.zebrunner.carina.api.apitools.validation.XmlCompareMode;
+import com.zebrunner.carina.api.http.HttpResponseStatusType;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class UserTest {
+    private User user;
+
+    @BeforeClass
+    public void setUp(){
+        Name name = new Name("Andrzej", "Kowalski");
+        Geolocation geo = new Geolocation(1.11,2.22);
+        Address address = new Address(geo, "Dubiny", "Główna", 161, "17-200");
+        user = new User(1, address, "dubiny@hajnowka.pl", "mor_2314", "83r5^_", name, "123123123");
+    }
 
     @Test
     public void verifyGetUserByUserId() {
-
-        User user = new User();
-        user.setId(1);
-
         GetSingleUser getSingleUser = new GetSingleUser(user.getId());
         getSingleUser.addProperty("user", user);
 
@@ -25,7 +32,7 @@ public class UserTest {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            user = mapper.readValue(response, User.class);
+            User responseUser = mapper.readValue(response, User.class);
             System.out.println();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -36,20 +43,36 @@ public class UserTest {
 
     @Test
     public void verifyUpdateUserById(){
-        Name name = new Name("Andrzej", "Kowalski");
-        Geolocation geo = new Geolocation(1.11,2.22);
-        Address address = new Address(geo, "Dubiny", "Główna", 161, "17-200");
-        User user = new User(1, address, "dubiny@hajnowka.pl", "konrad", "asd", name, "123123123");
-
         UpdateUser updateUser = new UpdateUser(user.getId());
-
         updateUser.addProperty("user", user);
 
-        updateUser.callAPIExpectSuccess();
+        updateUser.callAPI();
 
         updateUser.validateResponse();
-
     }
 
+    @Test
+    public void verifyLoginWithValidCredentails(){
+        LoginUser loginUser = new LoginUser();
+        user.setPassword("83r5^_"); //valid password
+        loginUser.addProperty("user", user);
+
+        loginUser.expectResponseStatus(HttpResponseStatusType.OK_200);
+        loginUser.callAPI();
+
+        loginUser.validateResponseAgainstSchema("api/fakestore/valid_login_response.json");
+    }
+
+    @Test
+    public void verifyLoginWithInvalidCredentials(){
+        LoginUser loginUser = new LoginUser();
+        user.setPassword("konrad"); // wrong password
+        loginUser.addProperty("user", user);
+
+        loginUser.expectResponseStatus(HttpResponseStatusType.UNAUTHORIZED_401);
+        String response = loginUser.callAPI().asString();
+
+        Assert.assertEquals(response, "username or password is incorrect", "Response must match with expected!");
+    }
 
 }
