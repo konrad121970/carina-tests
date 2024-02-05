@@ -9,15 +9,11 @@ import com.zebrunner.carina.api.apitools.builder.NotStringValuesProcessor;
 import com.zebrunner.carina.api.http.HttpMethodType;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 
-@Endpoint(url = "${config.fakestore_api_url}/users/${userId}", methodType = HttpMethodType.PUT)
-@RequestTemplatePath(path = "api/fakestore/update_user.json")
-@ResponseTemplatePath(path = "api/fakestore/update_user_response.json")
-@SuccessfulHttpStatus(status = HttpResponseStatusType.OK_200)
-public class UpdateUser extends AbstractApiMethodV2 {
+@Endpoint(url = "${config.fakestore_api_url}/auth/login", methodType = HttpMethodType.POST)
+@RequestTemplatePath(path = "api/fakestore/login_request.json")
+public class LoginUser extends AbstractApiMethodV2 {
 
-    public UpdateUser(Integer userId) {
-        replaceUrlPlaceholder("userId", userId.toString());
-
+    public LoginUser() {
         ignorePropertiesProcessor(NotStringValuesProcessor.class);
     }
 }
