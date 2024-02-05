@@ -1,10 +1,12 @@
 package com.solvd.laba.carina.api.fakestoreapi;
 
 import com.solvd.laba.carina.api.fakestoreapi.controller.product.AddNewProduct;
+import com.solvd.laba.carina.api.fakestoreapi.controller.product.DeleteProduct;
 import com.solvd.laba.carina.api.fakestoreapi.controller.product.GetSingleProduct;
 import com.solvd.laba.carina.api.fakestoreapi.controller.product.UpdateProduct;
 import com.solvd.laba.carina.api.fakestoreapi.domain.product.Product;
 import com.zebrunner.agent.core.registrar.domain.ObjectMapperImpl;
+import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import com.zebrunner.carina.core.registrar.tag.TestTag;
 import kong.unirest.ObjectMapper;
 import org.testng.annotations.DataProvider;
@@ -48,6 +50,7 @@ public class ProductTest {
         addNewProduct.validateResponse();
     }
 
+
     @Test(dataProvider = "DP1")
     public void updateProduct(Integer id, String title, String category, String image, Double price, String description){
         Product product = new Product();
@@ -63,6 +66,19 @@ public class ProductTest {
         updateProduct.callAPI();
 
         updateProduct.validateResponse();
+    }
+
+    @Test(dataProvider = "DP3")
+    public void deleteProduct(Integer productId){
+        Product product = new Product();
+        product.setId(productId);
+
+        DeleteProduct deleteProduct = new DeleteProduct(product.getId());
+        deleteProduct.addProperty("product", product);
+        deleteProduct.expectResponseStatus(HttpResponseStatusType.OK_200);
+        deleteProduct.callAPI();
+
+        deleteProduct.validateResponse();
     }
 
     @DataProvider(name = "DP1")
@@ -88,10 +104,10 @@ public class ProductTest {
     @DataProvider(name = "DP3")
     public Object[][] provideProductIds(){
         return new Object[][] {
-                {2},
-                {5},
-                {8},
-                {11}
+                {1}, // 2
+                {2}, // 5
+                {15}, // 8
+                {3} // 11
         };
     }
 
