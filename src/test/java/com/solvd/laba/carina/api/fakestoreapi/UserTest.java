@@ -2,6 +2,7 @@ package com.solvd.laba.carina.api.fakestoreapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.solvd.laba.carina.api.fakestoreapi.controller.user.DeleteUser;
 import com.solvd.laba.carina.api.fakestoreapi.controller.user.GetSingleUser;
 import com.solvd.laba.carina.api.fakestoreapi.controller.user.LoginUser;
 import com.solvd.laba.carina.api.fakestoreapi.controller.user.UpdateUser;
@@ -12,6 +13,7 @@ import com.solvd.laba.carina.api.fakestoreapi.domain.user.User;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class UserTest {
@@ -75,6 +77,30 @@ public class UserTest {
         String response = loginUser.callAPI().asString();
 
         Assert.assertEquals(response, "username or password is incorrect", "Response must match with expected!");
+    }
+
+    @Test(dataProvider = "DP1")
+    public void verifyDeleteUser(Integer userId){
+        User user = new User();
+        user.setId(userId);
+
+        DeleteUser deleteUser = new DeleteUser(user.getId());
+        deleteUser.addProperty("user", user);
+        deleteUser.expectResponseStatus(HttpResponseStatusType.OK_200);
+
+        deleteUser.callAPI();
+
+        deleteUser.validateResponse();
+    }
+
+    @DataProvider(name = "DP1")
+    public Object[][] provideUSerIds(){
+        return new Object[][] {
+                {1},
+                {2},
+                {3},
+                {4}
+        };
     }
 
 }
