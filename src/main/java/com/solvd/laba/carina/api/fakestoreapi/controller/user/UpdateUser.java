@@ -10,8 +10,8 @@ import com.zebrunner.carina.api.http.HttpMethodType;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 
 @Endpoint(url = "${config.fakestore_api_url}/users/${userId}", methodType = HttpMethodType.PUT)
-@RequestTemplatePath(path = "api/fakestore/update_user.json")
-@ResponseTemplatePath(path = "api/fakestore/update_user_response.json")
+@RequestTemplatePath(path = "api/fakestore/user/update_user_request.json")
+@ResponseTemplatePath(path = "api/fakestore/user/update_user_response.json")
 @SuccessfulHttpStatus(status = HttpResponseStatusType.OK_200)
 public class UpdateUser extends AbstractApiMethodV2 {
 

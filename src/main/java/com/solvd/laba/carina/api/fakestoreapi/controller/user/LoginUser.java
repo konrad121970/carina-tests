@@ -10,7 +10,7 @@ import com.zebrunner.carina.api.http.HttpMethodType;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 
 @Endpoint(url = "${config.fakestore_api_url}/auth/login", methodType = HttpMethodType.POST)
-@RequestTemplatePath(path = "api/fakestore/login_request.json")
+@RequestTemplatePath(path = "api/fakestore/user/login_request.json")
 public class LoginUser extends AbstractApiMethodV2 {
 
     public LoginUser() {

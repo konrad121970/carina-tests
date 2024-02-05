@@ -9,7 +9,7 @@ import com.zebrunner.carina.api.http.HttpMethodType;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 
 @Endpoint(url = "${config.fakestore_api_url}/users/${userId}", methodType = HttpMethodType.GET)
-@ResponseTemplatePath(path = "api/fakestore/get_single_user.json")
+@ResponseTemplatePath(path = "api/fakestore/user/get_single_user_response.json")
 @SuccessfulHttpStatus(status = HttpResponseStatusType.OK_200)
 public class GetSingleUser extends AbstractApiMethodV2 {
 

@@ -7,7 +7,7 @@ import com.zebrunner.carina.api.annotation.ResponseTemplatePath;
 import com.zebrunner.carina.api.apitools.builder.NotStringValuesProcessor;
 import com.zebrunner.carina.api.http.HttpMethodType;
 
-@Endpoint(url = "https://fakestoreapi.com/products", methodType = HttpMethodType.POST)
+@Endpoint(url = "${config.fakestore_api_url}/products", methodType = HttpMethodType.POST)
 @RequestTemplatePath(path = "api/fakestore/product/add_new_product_request.json")
 @ResponseTemplatePath(path = "api/fakestore/product/add_new_product_response.json")
 public class AddNewProduct extends AbstractApiMethodV2 {
