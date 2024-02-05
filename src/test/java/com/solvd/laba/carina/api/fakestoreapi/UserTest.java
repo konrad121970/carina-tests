@@ -2,11 +2,13 @@ package com.solvd.laba.carina.api.fakestoreapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.solvd.laba.carina.api.fakestoreapi.controller.user.GetSingleUser;
+import com.solvd.laba.carina.api.fakestoreapi.controller.user.LoginUser;
+import com.solvd.laba.carina.api.fakestoreapi.controller.user.UpdateUser;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.Address;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.Geolocation;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.Name;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.User;
-import com.zebrunner.carina.api.apitools.validation.XmlCompareMode;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -60,7 +62,7 @@ public class UserTest {
         loginUser.expectResponseStatus(HttpResponseStatusType.OK_200);
         loginUser.callAPI();
 
-        loginUser.validateResponseAgainstSchema("api/fakestore/valid_login_response.json");
+        loginUser.validateResponseAgainstSchema("api/fakestore/user/valid_login_response.json");
     }
 
     @Test

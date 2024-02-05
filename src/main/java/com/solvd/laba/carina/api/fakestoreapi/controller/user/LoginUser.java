@@ -1,4 +1,4 @@
-package com.solvd.laba.carina.api.fakestoreapi;
+package com.solvd.laba.carina.api.fakestoreapi.controller.user;
 
 import com.zebrunner.carina.api.AbstractApiMethodV2;
 import com.zebrunner.carina.api.annotation.Endpoint;

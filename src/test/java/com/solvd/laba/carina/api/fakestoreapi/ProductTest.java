@@ -1,5 +1,7 @@
 package com.solvd.laba.carina.api.fakestoreapi;
 
+import com.solvd.laba.carina.api.fakestoreapi.controller.product.AddNewProduct;
+import com.solvd.laba.carina.api.fakestoreapi.controller.product.GetSingleProduct;
 import com.solvd.laba.carina.api.fakestoreapi.domain.product.Product;
 import com.zebrunner.agent.core.registrar.domain.ObjectMapperImpl;
 import kong.unirest.ObjectMapper;
@@ -25,4 +27,22 @@ public class ProductTest {
 
         getSingleProduct.validateResponse();
     }
+
+    @Test
+    public void addNewProduct(){
+        AddNewProduct addNewProduct = new AddNewProduct();
+
+        Product product = new Product();
+        product.setTitle("Alleluja");
+        product.setCategory("Games");
+        product.setImage("https://alasdl.com");
+        product.setPrice(12.0);
+        product.setDescription("lalalal");
+
+        addNewProduct.addProperty("product", product);
+        addNewProduct.callAPI();
+
+        addNewProduct.validateResponse();
+    }
+
 }
