@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Fakestore product tests" verbose="1" parallel="methods" thread-count="5">
+    <test name="Product tests">
+        <classes>
+            <class name="com.solvd.laba.carina.api.fakestoreapi.ProductTest"/>
+        </classes>
+    </test>
+</suite>

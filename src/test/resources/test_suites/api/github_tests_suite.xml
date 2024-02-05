@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Github User test suite" verbose="1" parallel="methods" thread-count="5">
+    <test name="User test test">
+        <classes>
+            <class name="com.solvd.laba.carina.api.github.UserTest"/>
+        </classes>
+    </test>
+</suite>
