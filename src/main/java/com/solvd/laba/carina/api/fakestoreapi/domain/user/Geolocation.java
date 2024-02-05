@@ -8,6 +8,14 @@ public class Geolocation {
 
     private Double longitude;
 
+    public Geolocation() {
+    }
+
+    public Geolocation(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     @JsonProperty("lat")
     public Double getLatitude() {
         return latitude;

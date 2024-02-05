@@ -13,6 +13,19 @@ public class User {
     private Name name;
     private String phone;
 
+    public User() {
+    }
+
+    public User(Integer id, Address address, String email, String username, String password, Name name, String phone) {
+        this.id = id;
+        this.address = address;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+    }
+
     public Integer getId() {
         return id;
     }

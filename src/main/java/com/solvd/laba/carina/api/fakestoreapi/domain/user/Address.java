@@ -10,6 +10,17 @@ public class Address {
     @JsonProperty("zipcode")
     private String zipCode;
 
+    public Address() {
+    }
+
+    public Address(Geolocation geolocation, String city, String street, Integer number, String zipCode) {
+        this.geolocation = geolocation;
+        this.city = city;
+        this.street = street;
+        this.number = number;
+        this.zipCode = zipCode;
+    }
+
     public Geolocation getGeolocation() {
         return geolocation;
     }

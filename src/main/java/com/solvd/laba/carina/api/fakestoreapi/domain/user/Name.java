@@ -8,6 +8,14 @@ public class Name {
     @JsonProperty(value = "lastname")
     private String lastName;
 
+    public Name() {
+    }
+
+    public Name(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public String getFirstName() {
         return firstName;
     }
