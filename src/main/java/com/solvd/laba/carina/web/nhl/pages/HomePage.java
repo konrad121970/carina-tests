@@ -1,10 +1,9 @@
-package com.solvd.laba.carina.web.amazon;
+package com.solvd.laba.carina.web.nhl.pages;
 
-import com.solvd.laba.carina.web.amazon.components.Header;
+import com.solvd.laba.carina.web.nhl.components.header.Header;
 import com.zebrunner.carina.utils.config.Configuration;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends AbstractPage {
@@ -14,10 +13,6 @@ public class HomePage extends AbstractPage {
 
     public HomePage(WebDriver driver) {
         super(driver);
-        setPageAbsoluteURL(Configuration.getRequired("amazon_url"));
-    }
-
-    public Header getHeader() {
-        return header;
+        setPageAbsoluteURL(Configuration.getRequired("nhl_url"));
     }
 }
