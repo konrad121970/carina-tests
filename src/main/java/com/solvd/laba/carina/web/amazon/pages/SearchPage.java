@@ -1,4 +1,4 @@
-package com.solvd.laba.carina.web.amazon;
+package com.solvd.laba.carina.web.amazon.pages;
 
 import com.solvd.laba.carina.web.amazon.components.ProductCard;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;

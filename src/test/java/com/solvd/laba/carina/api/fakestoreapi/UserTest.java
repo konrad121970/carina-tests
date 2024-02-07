@@ -11,6 +11,7 @@ import com.solvd.laba.carina.api.fakestoreapi.domain.user.Geolocation;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.Name;
 import com.solvd.laba.carina.api.fakestoreapi.domain.user.User;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
+import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -34,6 +35,9 @@ public class UserTest {
 
         String response = getSingleUser.callAPIExpectSuccess().asString();
         ObjectMapper mapper = new ObjectMapper();
+
+        JSONObject jo = new JSONObject(response);
+        System.out.println();
 
         try {
             User responseUser = mapper.readValue(response, User.class);

@@ -4,13 +4,13 @@
   <#if product.price??>
     "price": ${product.price},
   <#else>
-    "price": "type:Double",
+    "price": "type:BigDecimal",
   </#if>
   "description": "type:String",
   "category": "type:String",
   "image": "type:String",
   "rating": {
-    "rate": "type:Double",
+    "rate": "type:BigDecimal",
     "count": "type:Integer"
   }
 }

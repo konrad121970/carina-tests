@@ -1,12 +1,11 @@
-package com.solvd.laba.carina.web;
+package com.solvd.laba.carina.web.amazon;
 
-import com.solvd.laba.carina.web.amazon.HomePage;
-import com.solvd.laba.carina.web.amazon.SearchPage;
+import com.solvd.laba.carina.web.amazon.pages.HomePage;
+import com.solvd.laba.carina.web.amazon.pages.SearchPage;
 import com.solvd.laba.carina.web.amazon.components.ProductCard;
 import com.solvd.laba.carina.web.amazon.components.SearchBar;
 import com.zebrunner.carina.core.AbstractTest;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
