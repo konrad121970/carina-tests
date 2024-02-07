@@ -11,9 +11,13 @@ import java.util.List;
 public class PrimaryNavBar extends AbstractUIObject {
 
     @FindBy(xpath = "./ul/li")
-    private List<ExtendedWebElement> menuItems;
+    private List<MenuItem> menuItems;
 
     public PrimaryNavBar(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
     }
 }

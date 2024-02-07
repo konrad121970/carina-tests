@@ -10,11 +10,15 @@ import java.util.List;
 
 public class SecondaryNavBar extends AbstractUIObject {
 
-    @FindBy(xpath = "./ul[contains(@class, 'nhl-c-header__menu--collapsible')]/li")
-    private List<ExtendedWebElement> menuItems;
+    @FindBy(xpath = "./ul[contains(@class, 'nhl-c-header__menu--collapsible')]/li[not(contains(@data-plugin, 'toggle-container'))]")
+    private List<MenuItem> menuItems;
 
 
     public SecondaryNavBar(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
     }
 }

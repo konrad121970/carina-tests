@@ -15,4 +15,8 @@ public class HomePage extends AbstractPage {
         super(driver);
         setPageAbsoluteURL(Configuration.getRequired("nhl_url"));
     }
+
+    public Header getHeader() {
+        return header;
+    }
 }
