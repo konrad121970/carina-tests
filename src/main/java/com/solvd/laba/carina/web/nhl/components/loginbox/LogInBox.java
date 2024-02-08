@@ -7,14 +7,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class LogInBox extends AbstractUIObject {
+    @FindBy(tagName = "h1")
+    private ExtendedWebElement mainHeading;
+    @FindBy(tagName = "h2")
+    private ExtendedWebElement secondaryHeading;
     @FindBy(xpath = "//input[@name = 'email']")
     private ExtendedWebElement emailInput;
-    @FindBy(xpath = "//div[contains(@class, 'error-message')]/preceding-sibling::input[@name = 'email']")
+    @FindBy(xpath = "//input[@name = 'email']/following-sibling::div")
     private ExtendedWebElement emailErrorMessage;
     @FindBy(xpath = "//input[@name = 'password']")
     private ExtendedWebElement passwordInput;
-    @FindBy(xpath = "//div[contains(@class, 'error-message')]/preceding-sibling::input[@name = 'password']")
+    @FindBy(xpath = "//input[@name = 'password']/following-sibling::div")
     private ExtendedWebElement passwordErrorMessage;
+    @FindBy(xpath = "//button[@type='submit']")
+    private ExtendedWebElement signInButton;
 
     public LogInBox(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -35,4 +41,27 @@ public class LogInBox extends AbstractUIObject {
         passwordInput.type(value);
     }
 
+    public ExtendedWebElement getMainHeading() {
+        return mainHeading;
+    }
+
+    public ExtendedWebElement getSecondaryHeading() {
+        return secondaryHeading;
+    }
+
+    public ExtendedWebElement getEmailErrorMessage() {
+        return emailErrorMessage;
+    }
+
+    public ExtendedWebElement getPasswordErrorMessage() {
+        return passwordErrorMessage;
+    }
+
+    public ExtendedWebElement getSignInButton() {
+        return signInButton;
+    }
+
+    public void clickSignInButton(){
+        signInButton.click();
+    }
 }

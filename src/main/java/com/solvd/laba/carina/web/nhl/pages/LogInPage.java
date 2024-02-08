@@ -7,10 +7,14 @@ import org.openqa.selenium.support.FindBy;
 
 public class LogInPage extends AbstractPage {
 
-    @FindBy(className = ".login-form")
+    @FindBy(className = "login-form")
     private LogInBox logInBox;
 
     public LogInPage(WebDriver driver) {
         super(driver);
+    }
+
+    public LogInBox getLogInBox() {
+        return logInBox;
     }
 }

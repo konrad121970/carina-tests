@@ -2,6 +2,7 @@ package com.solvd.laba.carina.web.nhl.components.header;
 
 import com.solvd.laba.carina.web.nhl.components.navbar.PrimaryNavBar;
 import com.solvd.laba.carina.web.nhl.components.navbar.SecondaryNavBar;
+import com.solvd.laba.carina.web.nhl.pages.LogInPage;
 import com.solvd.laba.carina.web.nhl.pages.SearchPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
@@ -19,7 +20,7 @@ public class Header extends AbstractUIObject {
     private LanguageButton changeLanguageButton;
     @FindBy(xpath = ".//nav[@aria-label = 'Languages']")
     private LanguageOptions languageOptions;
-    @FindBy(className = ".fa-icon-svg--account")
+    @FindBy(xpath = ".//*[@aria-label = 'Sign In']")
     private ExtendedWebElement signInButton;
     @FindBy(xpath = ".//a[@aria-label = 'Search']")
     private ExtendedWebElement searchButton;
@@ -57,7 +58,8 @@ public class Header extends AbstractUIObject {
         return new SearchPage(getDriver());
     }
 
-    public void clickSignInButton(){
-
+    public LogInPage clickSignInButton(){
+        signInButton.click();
+        return new LogInPage(driver);
     }
 }

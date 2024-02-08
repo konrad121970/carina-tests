@@ -4,14 +4,12 @@ import com.solvd.laba.carina.web.nhl.components.footer.Footer;
 import com.solvd.laba.carina.web.nhl.components.header.Header;
 import com.solvd.laba.carina.web.nhl.components.header.LanguageButton;
 import com.solvd.laba.carina.web.nhl.components.header.LanguageOptions;
+import com.solvd.laba.carina.web.nhl.components.loginbox.LogInBox;
 import com.solvd.laba.carina.web.nhl.components.navbar.MenuItem;
 import com.solvd.laba.carina.web.nhl.components.navbar.SecondaryNavBar;
 import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
 import com.solvd.laba.carina.web.nhl.components.searchresult.SearchResult;
-import com.solvd.laba.carina.web.nhl.pages.HomePage;
-import com.solvd.laba.carina.web.nhl.pages.InfoPage;
-import com.solvd.laba.carina.web.nhl.pages.SearchPage;
-import com.solvd.laba.carina.web.nhl.pages.StatsPage;
+import com.solvd.laba.carina.web.nhl.pages.*;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
@@ -88,17 +86,17 @@ public class HomePageTest extends AbstractTest {
     }
 
     @Test
-    public void verifyYoutubeSocialMediaButtonTest() {
+    public void verifyYoutubeSocialMediaButtonRedirectTest() {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePage page = new HomePage(driver);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
         page.open();
 
         // Accept cookies to get rid of pop-up over footer
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("onetrust-accept-btn-handler")));
-        driver.findElement(By.id("'onetrust-accept-btn-handler")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='onetrust-accept-btn-handler']")));
+        driver.findElement(By.xpath("//*[@id='onetrust-accept-btn-handler']")).click();
 
         Footer footer = page.getFooter();
         List<MenuItem> socialMenuItems = footer.getSocial();
@@ -115,7 +113,7 @@ public class HomePageTest extends AbstractTest {
     }
 
     @Test
-    public void verifyTermsOfServiceButtonTest(){
+    public void verifyTermsOfServiceRedirectTest(){
         SoftAssert sa = new SoftAssert();
         WebDriver driver =  getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
@@ -124,8 +122,8 @@ public class HomePageTest extends AbstractTest {
         page.open();
 
         // Accept cookies to get rid of pop-up over footer
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("onetrust-accept-btn-handler")));
-        driver.findElement(By.id("'onetrust-accept-btn-handler")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='onetrust-accept-btn-handler']")));
+        driver.findElement(By.xpath("//*[@id='onetrust-accept-btn-handler']")).click();
 
         Footer footer = page.getFooter();
         List<MenuItem> mainFooterItems = footer.getMainItems();
@@ -146,9 +144,9 @@ public class HomePageTest extends AbstractTest {
     }
 
     @Test
-    public void verifyShopDropdownItemTest(){
-        SoftAssert sa = new SoftAssert();
-        WebDriver driver =  getDriver();
+    public void verifyOpenNhlShopPageTest(){
+        WebDriver driver = getDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
         HomePage page = new HomePage(driver);
 
         page.open();
@@ -165,12 +163,21 @@ public class HomePageTest extends AbstractTest {
         assertNotNull(shopMenu, "'Shop' menu option should exist");
         shopMenu.click();
 
+        List<MenuItem> shopMenuItems = secondaryNavBar.getShopDropdownMenu();
+        MenuItem nhlShopItem = shopMenuItems.stream()
+                .filter(item -> item.getTextValue().equals("NHL Shop"))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(nhlShopItem, "'NHL Shop' item should be present on the dropdown list");
+        nhlShopItem.click();
+        assertTrue(page.getCurrentUrl().contains("shop.international.nhl.com"), "Page URL should match with expected.");
 
     }
 
     @Test
     public void verifyChangeLanguageToFrenchTest(){
-        WebDriver driver =  getDriver();
+        WebDriver driver = getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
         HomePage page = new HomePage(driver);
 
@@ -198,6 +205,91 @@ public class HomePageTest extends AbstractTest {
         frenchLanguage.click();
 
         assertEquals(page.getTopStoriesHeading().getText(), "Nouvelles récentes", "Top stories heading should match with expected one.");
+    }
+
+    @Test
+    public void verifyPressLoginButtonWithoutCredentialsTest(){
+        SoftAssert sa = new SoftAssert();
+        WebDriver driver = getDriver();
+        HomePage page = new HomePage(driver);
+
+        page.open();
+
+        Header header = page.getHeader();
+        assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+        LogInPage logInPage = header.clickSignInButton();
+        LogInBox logInBox = logInPage.getLogInBox();
+
+        sa.assertEquals(logInBox.getMainHeading().getText(), "Welcome!", "LogIn box should main heading should contain expected value.");
+        sa.assertEquals(logInBox.getSecondaryHeading().getText(), "Please sign in", "LogIn box should secondary heading should contain expected value.");
+
+        sa.assertEquals(logInBox.getEmailInput().getAttribute("placeholder"), "Email Address", "Email input field should contain expected placeholder.");
+        sa.assertEquals(logInBox.getPasswordInput().getAttribute("placeholder"), "Password", "Password input field should contain expected placeholder.");
+
+        logInBox.clickSignInButton();
+
+        assertEquals(logInBox.getEmailErrorMessage().getText(), "Field is required.", "Email validation message should match the expected.");
+        assertEquals(logInBox.getPasswordErrorMessage().getText(), "Field is required.", "Password validation message should match the expected.");
+
+        sa.assertAll();
+    }
+
+    @Test
+    public void verifyPressLoginButtonWithTooShortPasswordTest(){
+        SoftAssert sa = new SoftAssert();
+        WebDriver driver = getDriver();
+        HomePage page = new HomePage(driver);
+
+        page.open();
+
+        Header header = page.getHeader();
+        assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+        LogInPage logInPage = header.clickSignInButton();
+        LogInBox logInBox = logInPage.getLogInBox();
+
+        sa.assertEquals(logInBox.getMainHeading().getText(), "Welcome!", "LogIn box should main heading should contain expected value.");
+        sa.assertEquals(logInBox.getSecondaryHeading().getText(), "Please sign in", "LogIn box should secondary heading should contain expected value.");
+
+        sa.assertEquals(logInBox.getEmailInput().getAttribute("placeholder"), "Email Address", "Email input field should contain expected placeholder.");
+        sa.assertEquals(logInBox.getPasswordInput().getAttribute("placeholder"), "Password", "Password input field should contain expected placeholder.");
+
+        logInBox.typeEmailInput("konrad@moreno.com");
+        logInBox.typePasswordInput("abc");
+        logInBox.clickSignInButton();
+
+        assertEquals(logInBox.getPasswordErrorMessage().getText(), "Password must be at least 8 characters long.", "Password validation message should match the expected.");
+        // //div[contains(@class, 'essage-container')]
+        sa.assertAll();
+    }
+
+    @Test
+    public void verifyPressLoginButtonWithInvalidCredentials(){
+        SoftAssert sa = new SoftAssert();
+        WebDriver driver = getDriver();
+        HomePage page = new HomePage(driver);
+
+        page.open();
+
+        Header header = page.getHeader();
+        assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+        LogInPage logInPage = header.clickSignInButton();
+        LogInBox logInBox = logInPage.getLogInBox();
+
+        sa.assertEquals(logInBox.getMainHeading().getText(), "Welcome!", "LogIn box should main heading should contain expected value.");
+        sa.assertEquals(logInBox.getSecondaryHeading().getText(), "Please sign in", "LogIn box should secondary heading should contain expected value.");
+
+        sa.assertEquals(logInBox.getEmailInput().getAttribute("placeholder"), "Email Address", "Email input field should contain expected placeholder.");
+        sa.assertEquals(logInBox.getPasswordInput().getAttribute("placeholder"), "Password", "Password input field should contain expected placeholder.");
+
+        logInBox.typeEmailInput("konrad@moreno.com");
+        logInBox.typePasswordInput("abcabcabc");
+        logInBox.clickSignInButton();
+
+        assertEquals(driver.findElement(By
+                                        .xpath("//div[contains(@class, 'essage-container')]")).getText()
+                                        ,"The account credentials you entered did not match our records. Please check to make sure you entered them correctly.");
+
+        sa.assertAll();
     }
 
 }
