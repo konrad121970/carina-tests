@@ -28,7 +28,7 @@ public class MenuItem extends AbstractUIObject {
         return text;
     }
 
-    public <T extends AbstractPage> T clickMenuItemAndReturnNewPage(Class<T> pageClass){
+    public <T extends AbstractPage> T clickAndReturnNewPage(Class<T> pageClass){
         text.click();
         try {
             return pageClass.getDeclaredConstructor(WebDriver.class).newInstance(driver);
@@ -37,7 +37,7 @@ public class MenuItem extends AbstractUIObject {
         }
     }
 
-    public void clickMenuItem(){
+    public void click(){
         text.click();
     }
 }

@@ -17,6 +17,12 @@ public class Header extends AbstractUIObject {
     @FindBy(xpath = ".//nav[@aria-label = 'Navigation Menu']")
     private SecondaryNavBar secondaryNavBar;
 
+    //@FindBy(xpath = ".//*[@aria-label = 'Shop Menu']")
+
+    @FindBy(xpath = "//nav[@id = 'hamburger-menu']//li[contains(@class, '-lang-switch')]")
+    private LanguageButton changeLanguageButton;
+    @FindBy(xpath = ".//nav[@aria-label = 'Languages']")
+    private LanguageOptions languageOptions;
     @FindBy(xpath = ".//a[@aria-label = 'Search']")
     private ExtendedWebElement searchButton;
 
@@ -30,6 +36,14 @@ public class Header extends AbstractUIObject {
 
     public SecondaryNavBar getSecondaryNavBar() {
         return secondaryNavBar;
+    }
+
+    public LanguageButton getChangeLanguageButton() {
+        return changeLanguageButton;
+    }
+
+    public LanguageOptions getLanguageOptions() {
+        return languageOptions;
     }
 
     public ExtendedWebElement getSearchButton() {
