@@ -1,20 +1,21 @@
 package com.solvd.laba.carina.web.nhl;
 
+import com.solvd.laba.carina.web.nhl.components.footer.Footer;
 import com.solvd.laba.carina.web.nhl.components.navbar.MenuItem;
 import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
 import com.solvd.laba.carina.web.nhl.components.searchresult.SearchResult;
 import com.solvd.laba.carina.web.nhl.pages.HomePage;
+import com.solvd.laba.carina.web.nhl.pages.InfoPage;
 import com.solvd.laba.carina.web.nhl.pages.SearchPage;
 import com.solvd.laba.carina.web.nhl.pages.StatsPage;
 import com.zebrunner.carina.core.AbstractTest;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.*;
 
@@ -33,12 +34,12 @@ public class HomePageTest extends AbstractTest {
 
         List<MenuItem> list = page.getHeader().getSecondaryNavBar().getMenuItems();
         MenuItem menuItem = list.stream()
-                .filter(item -> item.getText().equals("Stats"))
+                .filter(item -> item.getTextValue().equals("Stats"))
                 .findFirst()
                 .orElse(null);
 
         assertNotNull(menuItem, "There must be 'Stats' menu item present");
-        StatsPage statsPage =  menuItem.clickMenuItem(StatsPage.class);
+        StatsPage statsPage =  menuItem.clickMenuItemAndReturnNewPage(StatsPage.class);
         sa.assertEquals(statsPage.getTitle(), "NHL Stats | NHL.com");
         assertEquals(statsPage.getMainHeadingText(), "Statistics");
 
@@ -75,7 +76,62 @@ public class HomePageTest extends AbstractTest {
 //        });
 
         sa.assertAll();
-        System.out.println();
+    }
+
+    @Test
+    public void verifyYoutubeSocialMediaButtonTest() {
+        SoftAssert sa = new SoftAssert();
+        WebDriver driver =  getDriver();
+        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        HomePage page = new HomePage(driver);
+
+        page.open();
+
+        // Accept cookies to get rid of pop-up over footer
+        driver.findElement(By.xpath("//*[@id = 'onetrust-accept-btn-handler']")).click();
+
+        Footer footer = page.getFooter();
+        List<MenuItem> socialMenuItems = footer.getSocial();
+        sa.assertTrue(socialMenuItems.size() == 8, "There should be eight social accounts present");
+        assertTrue(socialMenuItems.get(0).getTextElement().getAttribute("href").equals("https://www.youtube.com/nhl"), "First link should redirect to NHL's Youtube account");
+
+        socialMenuItems.get(0).getTextElement().hover(); // Hover over the image of social media
+        socialMenuItems.get(0).getTextElement().click(); // and click it
+
+        assertTrue(page.getCurrentUrl().contains("youtube"), "Button should redirect to youtube's site");
+        // assertTrue(page.getCurrentUrl().contains("/nhl")); // hard to implement bypassing cookies check
+
+        sa.assertAll();
+    }
+
+    @Test
+    public void verifyTermsOfServiceButtonTest(){
+        SoftAssert sa = new SoftAssert();
+        WebDriver driver =  getDriver();
+        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        HomePage page = new HomePage(driver);
+
+        page.open();
+
+        // Accept cookies to get rid of pop-up over footer
+        driver.findElement(By.xpath("//*[@id = 'onetrust-accept-btn-handler']")).click();
+
+        Footer footer = page.getFooter();
+        List<MenuItem> mainFooterItems = footer.getMainItems();
+        sa.assertTrue(mainFooterItems.size() == 8, "There should be eight main links in footer");
+        MenuItem menuItem = mainFooterItems.stream()
+                .filter(menuItem1 -> menuItem1.getTextValue().contains("Terms of Service"))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(menuItem, "There should be 'Terms of Service' footer item present");
+        menuItem.getTextElement().hover();
+        InfoPage infoPage =  menuItem.clickMenuItemAndReturnNewPage(InfoPage.class);
+
+        assertTrue(infoPage.getCurrentUrl().contains("/info/terms-of-service"), "Opened page should have correct URL");
+        assertEquals(infoPage.getMainHeading().getText().toLowerCase(), "terms of service");
+
+        sa.assertAll();
     }
 
 
