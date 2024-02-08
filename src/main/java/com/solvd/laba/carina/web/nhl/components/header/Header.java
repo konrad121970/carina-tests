@@ -13,16 +13,14 @@ public class Header extends AbstractUIObject {
 
     @FindBy(xpath = ".//nav[contains(@aria-label, 'Main')]")
     private PrimaryNavBar primaryNavBar;
-
     @FindBy(xpath = ".//nav[@aria-label = 'Navigation Menu']")
     private SecondaryNavBar secondaryNavBar;
-
-    //@FindBy(xpath = ".//*[@aria-label = 'Shop Menu']")
-
     @FindBy(xpath = "//nav[@id = 'hamburger-menu']//li[contains(@class, '-lang-switch')]")
     private LanguageButton changeLanguageButton;
     @FindBy(xpath = ".//nav[@aria-label = 'Languages']")
     private LanguageOptions languageOptions;
+    @FindBy(className = ".fa-icon-svg--account")
+    private ExtendedWebElement signInButton;
     @FindBy(xpath = ".//a[@aria-label = 'Search']")
     private ExtendedWebElement searchButton;
 
@@ -50,8 +48,16 @@ public class Header extends AbstractUIObject {
         return searchButton;
     }
 
+    public ExtendedWebElement getSignInButton() {
+        return signInButton;
+    }
+
     public SearchPage clickSearchButton(){
         searchButton.click();
         return new SearchPage(getDriver());
+    }
+
+    public void clickSignInButton(){
+
     }
 }

@@ -12,7 +12,8 @@ public class SecondaryNavBar extends AbstractUIObject {
 
     @FindBy(xpath = "./ul[contains(@class, 'nhl-c-header__menu--collapsible')]/li")
     private List<MenuItem> menuItems;
-
+    @FindBy(xpath = ".//*[@aria-label='Shop Menu']/ul/li")
+    private List<MenuItem> shopDropdownMenu;
 
     public SecondaryNavBar(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -20,5 +21,9 @@ public class SecondaryNavBar extends AbstractUIObject {
 
     public List<MenuItem> getMenuItems() {
         return menuItems;
+    }
+
+    public List<MenuItem> getShopDropdownMenu() {
+        return shopDropdownMenu;
     }
 }

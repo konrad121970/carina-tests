@@ -12,7 +12,6 @@ public class StatsPage extends AbstractPage {
     @FindBy(xpath = "//h1")
     private ExtendedWebElement mainHeading;
 
-
     public StatsPage(WebDriver driver) {
         super(driver);
     }
