@@ -1,4 +1,4 @@
-package com.solvd.laba.carina.web.nhl.pages;
+package com.solvd.laba.carina.web.nhl.pages.desktop;
 
 import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
 import com.zebrunner.carina.api.AbstractApiMethodV2;

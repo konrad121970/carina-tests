@@ -1,15 +1,16 @@
-package com.solvd.laba.carina.web.nhl.pages;
+package com.solvd.laba.carina.web.nhl.pages.common;
 
 import com.solvd.laba.carina.web.nhl.components.footer.Footer;
 import com.solvd.laba.carina.web.nhl.components.header.Header;
 import com.zebrunner.carina.utils.config.Configuration;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class HomePage extends AbstractPage {
 
+public abstract class HomePageBase extends AbstractPage {
     @FindBy(xpath = "//header")
     private Header header;
 
@@ -19,9 +20,10 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//footer")
     private Footer footer;
 
-    public HomePage(WebDriver driver) {
+    public HomePageBase(WebDriver driver) {
         super(driver);
         setPageAbsoluteURL(Configuration.getRequired("nhl_url"));
+        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
     }
 
     public Header getHeader() {

@@ -2,8 +2,8 @@ package com.solvd.laba.carina.web.nhl.components.header;
 
 import com.solvd.laba.carina.web.nhl.components.navbar.PrimaryNavBar;
 import com.solvd.laba.carina.web.nhl.components.navbar.SecondaryNavBar;
-import com.solvd.laba.carina.web.nhl.pages.LogInPage;
-import com.solvd.laba.carina.web.nhl.pages.SearchPage;
+import com.solvd.laba.carina.web.nhl.pages.desktop.LogInPage;
+import com.solvd.laba.carina.web.nhl.pages.desktop.SearchPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;

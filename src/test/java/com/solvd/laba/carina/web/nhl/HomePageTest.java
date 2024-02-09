@@ -9,12 +9,14 @@ import com.solvd.laba.carina.web.nhl.components.navbar.MenuItem;
 import com.solvd.laba.carina.web.nhl.components.navbar.SecondaryNavBar;
 import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
 import com.solvd.laba.carina.web.nhl.components.searchresult.SearchResult;
-import com.solvd.laba.carina.web.nhl.pages.*;
+import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
+import com.solvd.laba.carina.web.nhl.pages.desktop.InfoPage;
+import com.solvd.laba.carina.web.nhl.pages.desktop.LogInPage;
+import com.solvd.laba.carina.web.nhl.pages.desktop.SearchPage;
+import com.solvd.laba.carina.web.nhl.pages.desktop.StatsPage;
 import com.zebrunner.carina.core.AbstractTest;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
@@ -22,7 +24,6 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.*;
 
@@ -33,7 +34,7 @@ public class HomePageTest extends AbstractTest {
     public void verifyNavigateToStatsPageTest(){
         SoftAssert sa = new SoftAssert();
         WebDriver driver =  getDriver();
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
         assertTrue(page.isPageOpened(), "Page should be opened");
@@ -59,7 +60,7 @@ public class HomePageTest extends AbstractTest {
 
         SoftAssert sa = new SoftAssert();
         WebDriver driver =  getDriver();
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
 
@@ -89,7 +90,7 @@ public class HomePageTest extends AbstractTest {
     public void verifyYoutubeSocialMediaButtonRedirectTest() {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
         page.open();
@@ -117,7 +118,7 @@ public class HomePageTest extends AbstractTest {
         SoftAssert sa = new SoftAssert();
         WebDriver driver =  getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
 
@@ -147,7 +148,7 @@ public class HomePageTest extends AbstractTest {
     public void verifyOpenNhlShopPageTest(){
         WebDriver driver = getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
 
@@ -179,7 +180,7 @@ public class HomePageTest extends AbstractTest {
     public void verifyChangeLanguageToFrenchTest(){
         WebDriver driver = getDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
 
@@ -211,7 +212,7 @@ public class HomePageTest extends AbstractTest {
     public void verifyPressLoginButtonWithoutCredentialsTest(){
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
 
@@ -238,7 +239,7 @@ public class HomePageTest extends AbstractTest {
     public void verifyPressLoginButtonWithTooShortPasswordTest(){
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
 
@@ -266,7 +267,7 @@ public class HomePageTest extends AbstractTest {
     public void verifyPressLoginButtonWithInvalidCredentials(){
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
-        HomePage page = new HomePage(driver);
+        HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
 

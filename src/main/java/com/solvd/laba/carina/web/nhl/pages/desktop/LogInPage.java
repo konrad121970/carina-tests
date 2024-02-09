@@ -1,4 +1,4 @@
-package com.solvd.laba.carina.web.nhl.pages;
+package com.solvd.laba.carina.web.nhl.pages.desktop;
 
 import com.solvd.laba.carina.web.nhl.components.loginbox.LogInBox;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
