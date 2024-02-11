@@ -1,9 +1,8 @@
-package com.solvd.laba.carina.web.nhl.pages.desktop;
+package com.solvd.laba.carina.web.nhl.pages.android;
 
 import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
 import com.solvd.laba.carina.web.nhl.components.searchresult.SearchResult;
 import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
-import com.solvd.laba.carina.web.nhl.pages.common.SearchPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
@@ -11,7 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = SearchPageBase.class)
+
+@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = SearchPage.class)
 public class SearchPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@class = 'nhl-o-pattern-title']//h2")

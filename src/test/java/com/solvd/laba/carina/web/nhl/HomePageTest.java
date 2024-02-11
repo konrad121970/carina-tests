@@ -46,6 +46,10 @@ public class HomePageTest extends AbstractTest {
                 .findFirst()
                 .orElse(null);
 
+        if(menuItem == null){
+
+        }
+
         assertNotNull(menuItem, "There must be 'Stats' menu item present");
         StatsPage statsPage =  menuItem.clickAndReturnNewPage(StatsPage.class);
         sa.assertEquals(statsPage.getTitle(), "NHL Stats | NHL.com", "Title of the stats page should be as expected.");
@@ -60,9 +64,15 @@ public class HomePageTest extends AbstractTest {
 
         SoftAssert sa = new SoftAssert();
         WebDriver driver =  getDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
         HomePageBase page = initPage(driver, HomePageBase.class);
 
+
         page.open();
+
+        // Accept cookies to get rid of pop-up
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='onetrust-accept-btn-handler']")));
+        driver.findElement(By.xpath("//*[@id='onetrust-accept-btn-handler']")).click();
 
         assertTrue(page.getHeader().getSearchButton().isElementPresent(1), "Search button must be present");
         SearchPage searchPage = page.getHeader().clickSearchButton();
@@ -95,7 +105,7 @@ public class HomePageTest extends AbstractTest {
 
         page.open();
 
-        // Accept cookies to get rid of pop-up over footer
+        // Accept cookies to get rid of pop-up
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='onetrust-accept-btn-handler']")));
         driver.findElement(By.xpath("//*[@id='onetrust-accept-btn-handler']")).click();
 
@@ -122,7 +132,7 @@ public class HomePageTest extends AbstractTest {
 
         page.open();
 
-        // Accept cookies to get rid of pop-up over footer
+        // Accept cookies to get rid of pop-up
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='onetrust-accept-btn-handler']")));
         driver.findElement(By.xpath("//*[@id='onetrust-accept-btn-handler']")).click();
 
