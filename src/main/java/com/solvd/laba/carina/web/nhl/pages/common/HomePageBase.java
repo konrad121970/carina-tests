@@ -20,10 +20,12 @@ public abstract class HomePageBase extends AbstractPage {
     @FindBy(xpath = "//footer")
     private Footer footer;
 
+    @FindBy(xpath = "//*[@id='onetrust-accept-btn-handler']")
+    private ExtendedWebElement acceptCookies;
+
     public HomePageBase(WebDriver driver) {
         super(driver);
         setPageAbsoluteURL(Configuration.getRequired("nhl_url"));
-        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
     }
 
     public Header getHeader() {
@@ -37,4 +39,15 @@ public abstract class HomePageBase extends AbstractPage {
     public ExtendedWebElement getTopStoriesHeading() {
         return topStoriesHeading;
     }
+
+    public abstract void  clickHamburgerMenu();
+
+    @Override
+    public void open(){
+        super.open();
+        while (!acceptCookies.isClickable()){}
+        acceptCookies.click();
+    }
+
+
 }

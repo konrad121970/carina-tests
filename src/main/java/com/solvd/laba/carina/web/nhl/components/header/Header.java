@@ -62,4 +62,5 @@ public class Header extends AbstractUIObject {
         signInButton.click();
         return new LogInPage(driver);
     }
+
 }

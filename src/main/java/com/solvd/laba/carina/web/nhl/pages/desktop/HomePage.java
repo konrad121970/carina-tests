@@ -9,4 +9,9 @@ public class HomePage extends HomePageBase {
     public HomePage(WebDriver driver) {
         super(driver);
     }
+
+    @Override
+    public void clickHamburgerMenu() {
+
+    }
 }

@@ -16,6 +16,7 @@ import com.solvd.laba.carina.web.nhl.pages.desktop.SearchPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.StatsPage;
 import com.zebrunner.carina.core.AbstractTest;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -39,47 +40,53 @@ public class HomePageTest extends AbstractTest {
         page.open();
         assertTrue(page.isPageOpened(), "Page should be opened");
         sa.assertEquals(page.getTitle(), "Official Site of the National Hockey League | NHL.com", "Page title should be as expected");
+        sa.assertAll();
 
         List<MenuItem> list = page.getHeader().getSecondaryNavBar().getMenuItems();
+
         MenuItem menuItem = list.stream()
                 .filter(item -> item.getTextValue().equals("Stats"))
                 .findFirst()
                 .orElse(null);
 
         if(menuItem == null){
+            page.clickHamburgerMenu();
 
+            list = page.getHeader().getSecondaryNavBar().getMenuItems();
+            menuItem = list.stream()
+                    .filter(item -> item.getTextValue().equals("Stats"))
+                    .findFirst()
+                    .orElse(null);
         }
 
         assertNotNull(menuItem, "There must be 'Stats' menu item present");
         StatsPage statsPage =  menuItem.clickAndReturnNewPage(StatsPage.class);
         sa.assertEquals(statsPage.getTitle(), "NHL Stats | NHL.com", "Title of the stats page should be as expected.");
+        sa.assertAll();
+
         assertEquals(statsPage.getMainHeadingText(), "Statistics", "Main heading text should be 'Statistics'");
 
-        sa.assertAll();
     }
 
     @Test
     public void verifySearchTextTest(){
-        String searchPhrase = "NHL";
+        String searchPhrase = "hi";
 
         SoftAssert sa = new SoftAssert();
         WebDriver driver =  getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
         HomePageBase page = initPage(driver, HomePageBase.class);
 
-
         page.open();
-
-        // Accept cookies to get rid of pop-up
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='onetrust-accept-btn-handler']")));
-        driver.findElement(By.xpath("//*[@id='onetrust-accept-btn-handler']")).click();
 
         assertTrue(page.getHeader().getSearchButton().isElementPresent(1), "Search button must be present");
         SearchPage searchPage = page.getHeader().clickSearchButton();
 
         SearchBar searchBar = searchPage.getSearchBar();
         assertTrue(searchBar.getTextInput().isElementPresent(1), "Search input field should be present");
+
         sa.assertEquals(searchBar.getTextInputPlaceholder(), "Search", "Search input placeholder is incorrect");
+        sa.assertAll();
+
         assertTrue(searchBar.getSearchButton().isElementPresent(1), "Search button must be present");
 
         searchBar.inputSearchQuery(searchPhrase);
@@ -88,10 +95,10 @@ public class HomePageTest extends AbstractTest {
         List<SearchResult> searchResults = searchPage.getSearchResult();
         sa.assertTrue( searchResults.size() > 3, "There should be more than 3 results");
 
-//        searchResults.forEach(result -> {
-//            sa.assertTrue(result.getDescription().getText().contains(searchPhrase)
-//                                 || result.getHeading().getText().contains(searchPhrase), "Each of the search result description should contain the search phrase");
-//        });
+        searchResults.forEach(result -> {
+            sa.assertTrue(result.getHeading().isElementPresent(), "Each of the search result heading should exist");
+            sa.assertTrue(result.getDescription().isElementPresent(), "Each of the search result description should exist");
+        });
 
         sa.assertAll();
     }
@@ -101,13 +108,8 @@ public class HomePageTest extends AbstractTest {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
         page.open();
-
-        // Accept cookies to get rid of pop-up
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='onetrust-accept-btn-handler']")));
-        driver.findElement(By.xpath("//*[@id='onetrust-accept-btn-handler']")).click();
 
         Footer footer = page.getFooter();
         List<MenuItem> socialMenuItems = footer.getSocial();
@@ -127,14 +129,9 @@ public class HomePageTest extends AbstractTest {
     public void verifyTermsOfServiceRedirectTest(){
         SoftAssert sa = new SoftAssert();
         WebDriver driver =  getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
-
-        // Accept cookies to get rid of pop-up
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='onetrust-accept-btn-handler']")));
-        driver.findElement(By.xpath("//*[@id='onetrust-accept-btn-handler']")).click();
 
         Footer footer = page.getFooter();
         List<MenuItem> mainFooterItems = footer.getMainItems();
@@ -157,7 +154,6 @@ public class HomePageTest extends AbstractTest {
     @Test
     public void verifyOpenNhlShopPageTest(){
         WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
@@ -189,7 +185,6 @@ public class HomePageTest extends AbstractTest {
     @Test
     public void verifyChangeLanguageToFrenchTest(){
         WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
@@ -197,6 +192,10 @@ public class HomePageTest extends AbstractTest {
         Header header = page.getHeader();
         LanguageButton languageButton = header.getChangeLanguageButton();
         LanguageOptions languageOptions = header.getLanguageOptions();
+
+        if(!languageButton.getButton().isClickable()){
+            page.clickHamburgerMenu();
+        }
 
         assertTrue(languageButton.getButton().isElementPresent(), "Change language button must be present");
         languageButton.click();
