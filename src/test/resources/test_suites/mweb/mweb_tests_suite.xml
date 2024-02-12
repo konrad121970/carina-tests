@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Web tests suite" verbose="1">
+    <test name="tests">
+        <classes>
+            <class name="com.solvd.laba.carina.web.nhl.HomePageTest"/>
+        </classes>
+    </test>
+</suite>

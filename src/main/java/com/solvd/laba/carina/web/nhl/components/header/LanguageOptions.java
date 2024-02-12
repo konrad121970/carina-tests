@@ -1,7 +1,6 @@
 package com.solvd.laba.carina.web.nhl.components.header;
 
 import com.solvd.laba.carina.web.nhl.components.navbar.MenuItem;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -18,7 +17,7 @@ public class LanguageOptions extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public List<MenuItem> getLanguageOptions() {
+    public List<MenuItem> getLanguageOptionsList() {
         return languageOptions;
     }
 }

@@ -45,6 +45,9 @@ public abstract class HomePageBase extends AbstractPage {
 
     public abstract boolean isHamburgerMenuButtonPresent();
 
+    public abstract void clickCloseWidget();
+    public abstract ExtendedWebElement getCloseWidget();
+
     @Override
     public void open(){
         super.open();

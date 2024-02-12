@@ -23,7 +23,16 @@ public class LanguageButton extends AbstractUIObject {
         return text.getText();
     }
 
-    public void click(){
+    public void clickLanguageButton(){
         text.click();
     }
+
+    public boolean isLanguageButtonClickable(){
+        return text.isClickable();
+    }
+
+    public boolean isLanguageButtonPresent(){
+        return text.isPresent();
+    }
+
 }

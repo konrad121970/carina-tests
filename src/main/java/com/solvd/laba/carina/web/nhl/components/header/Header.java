@@ -67,6 +67,18 @@ public class Header extends AbstractUIObject {
         signInButton.hover();
     }
 
+    public boolean isLanguageButtonClickable(){
+        return changeLanguageButton.isLanguageButtonClickable();
+    }
+
+    public boolean isLanguageButtonPresent(){
+        return changeLanguageButton.isLanguageButtonPresent();
+    }
+
+    public void clickLanguageButton(){
+        changeLanguageButton.clickLanguageButton();
+    }
+
 
 
 

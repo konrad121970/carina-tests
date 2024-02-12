@@ -34,6 +34,9 @@ public class HomePage extends HomePageBase {
     public ExtendedWebElement getCloseWidget() {
         return closeWidget;
     }
+    public void clickCloseWidget(){
+        closeWidget.click();
+    }
 
     public boolean isHamburgerMenuButtonPresent(){
         return secondaryNavbarHamburgerMenu.isElementPresent();
