@@ -14,4 +14,12 @@ public class HomePage extends HomePageBase {
     public void clickHamburgerMenu() {
 
     }
+    @Override
+    public void hoverHamburgerMenu(){
+
+    }
+    @Override
+    public boolean isHamburgerMenuButtonPresent() {
+        return false;
+    }
 }

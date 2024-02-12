@@ -24,7 +24,7 @@
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <version>${testng.version}</version>
-        <scope>test</scope>
+        <scope>compile</scope>
     </dependency>
 
     <dependency>
@@ -44,9 +44,6 @@
         <artifactId>json</artifactId>
         <version>20231013</version>
     </dependency>
-
-
-
 </dependencies>
 
 </project>

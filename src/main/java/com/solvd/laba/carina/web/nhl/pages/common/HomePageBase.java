@@ -41,6 +41,9 @@ public abstract class HomePageBase extends AbstractPage {
     }
 
     public abstract void  clickHamburgerMenu();
+    public abstract void hoverHamburgerMenu();
+
+    public abstract boolean isHamburgerMenuButtonPresent();
 
     @Override
     public void open(){

@@ -14,21 +14,30 @@ import com.solvd.laba.carina.web.nhl.pages.desktop.InfoPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.LogInPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.SearchPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.StatsPage;
+import com.solvd.laba.carina.web.utils.DeviceUtils;
+import com.solvd.laba.carina.web.utils.MobileContextUtils;
 import com.zebrunner.carina.core.AbstractTest;
+import com.zebrunner.carina.utils.factory.DeviceType;
+import com.zebrunner.carina.webdriver.device.Device;
+import io.appium.java_client.MobileCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import javax.ws.rs.HEAD;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
-public class HomePageTest extends AbstractTest {
+public class HomePageTest extends AbstractTest implements DeviceUtils {
 
 
     @Test
@@ -133,6 +142,7 @@ public class HomePageTest extends AbstractTest {
 
         page.open();
 
+
         Footer footer = page.getFooter();
         List<MenuItem> mainFooterItems = footer.getMainItems();
         sa.assertTrue(mainFooterItems.size() == 8, "There should be eight main links in footer");
@@ -194,10 +204,14 @@ public class HomePageTest extends AbstractTest {
         LanguageOptions languageOptions = header.getLanguageOptions();
 
         if(!languageButton.getButton().isClickable()){
+            page.hoverHamburgerMenu();
             page.clickHamburgerMenu();
         }
 
         assertTrue(languageButton.getButton().isElementPresent(), "Change language button must be present");
+
+        driver.findElement(By.id("com.android.chrome:id/infobar_close_button")).click();
+
         languageButton.click();
         List<MenuItem> languageOptionsList = languageOptions.getLanguageOptions();
 
@@ -222,11 +236,32 @@ public class HomePageTest extends AbstractTest {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
         Header header = page.getHeader();
+
+        if(isDeviceMobile(driver)){
+            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.ImageButton[@content-desc='Close']")));
+            driver.findElement(By.xpath("//android.widget.ImageButton[@content-desc='Close']")).click();
+            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
+        }
+
+        if(page.isHamburgerMenuButtonPresent()){
+            page.clickHamburgerMenu();
+
+            assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+
+            Actions actions = new Actions(driver);
+            actions.scrollByAmount(0,100);
+            actions.perform();
+        }
+
         assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
 
@@ -249,10 +284,30 @@ public class HomePageTest extends AbstractTest {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
         Header header = page.getHeader();
+
+        if(isDeviceMobile(driver)){
+            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.ImageButton[@content-desc='Close']")));
+            driver.findElement(By.xpath("//android.widget.ImageButton[@content-desc='Close']")).click();
+            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
+        }
+
+        if(page.isHamburgerMenuButtonPresent()){
+            page.clickHamburgerMenu();
+
+            assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+
+            Actions actions = new Actions(driver);
+            actions.scrollByAmount(0,100);
+            actions.perform();
+        }
+
         assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
@@ -277,10 +332,30 @@ public class HomePageTest extends AbstractTest {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
         Header header = page.getHeader();
+
+        if(isDeviceMobile(driver)){
+            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.ImageButton[@content-desc='Close']")));
+            driver.findElement(By.xpath("//android.widget.ImageButton[@content-desc='Close']")).click();
+            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
+        }
+
+        if(page.isHamburgerMenuButtonPresent()){
+            page.clickHamburgerMenu();
+
+            assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+
+            Actions actions = new Actions(driver);
+            actions.scrollByAmount(0,100);
+            actions.perform();
+        }
+
         assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
