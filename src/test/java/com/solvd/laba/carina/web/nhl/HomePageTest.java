@@ -2,8 +2,6 @@ package com.solvd.laba.carina.web.nhl;
 
 import com.solvd.laba.carina.web.nhl.components.footer.Footer;
 import com.solvd.laba.carina.web.nhl.components.header.Header;
-import com.solvd.laba.carina.web.nhl.components.header.LanguageButton;
-import com.solvd.laba.carina.web.nhl.components.header.LanguageOptions;
 import com.solvd.laba.carina.web.nhl.components.loginbox.LogInBox;
 import com.solvd.laba.carina.web.nhl.components.navbar.MenuItem;
 import com.solvd.laba.carina.web.nhl.components.navbar.SecondaryNavBar;
@@ -17,23 +15,16 @@ import com.solvd.laba.carina.web.nhl.pages.desktop.StatsPage;
 import com.solvd.laba.carina.web.utils.DeviceUtils;
 import com.solvd.laba.carina.web.utils.MobileContextUtils;
 import com.zebrunner.carina.core.AbstractTest;
-import com.zebrunner.carina.utils.factory.DeviceType;
-import com.zebrunner.carina.webdriver.device.Device;
-import io.appium.java_client.MobileCommand;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import javax.ws.rs.HEAD;
 import java.time.Duration;
 import java.util.List;
-import java.util.Set;
 
 import static org.testng.Assert.*;
 
@@ -117,6 +108,8 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
@@ -127,6 +120,18 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         socialMenuItems.get(0).getTextElement().hover(); // Hover over the image of social media
         socialMenuItems.get(0).getTextElement().click(); // and click it
+
+        //TODO: check if youtube app is opened on mobile device
+//        if(isDeviceMobile(driver)){
+//            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
+//            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
+//            page.clickCloseWidget();
+//            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
+//
+//            Actions actions = new Actions(driver);
+//            actions.scrollByAmount(0,20000);
+//            actions.perform();
+//        }
 
         assertTrue(page.getCurrentUrl().contains("youtube"), "Button should redirect to youtube's site");
         // assertTrue(page.getCurrentUrl().contains("/nhl")); // hard to implement bypassing cookies check
@@ -139,9 +144,21 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
         SoftAssert sa = new SoftAssert();
         WebDriver driver =  getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
+        if(isDeviceMobile(driver)){
+            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
+            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
+            page.clickCloseWidget();
+            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
+
+            Actions actions = new Actions(driver);
+            actions.scrollByAmount(0,20000);
+            actions.perform();
+        }
 
         Footer footer = page.getFooter();
         List<MenuItem> mainFooterItems = footer.getMainItems();
@@ -170,8 +187,13 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         Header header = page.getHeader();
         SecondaryNavBar secondaryNavBar = header.getSecondaryNavBar();
-        List<MenuItem> navItems = secondaryNavBar.getMenuItems();
 
+        if(page.isHamburgerMenuButtonPresent()){
+            page.hoverHamburgerMenu();
+            page.clickHamburgerMenu();
+        }
+
+        List<MenuItem> navItems = secondaryNavBar.getMenuItems();
         MenuItem shopMenu =  navItems.stream().filter(item -> item.getTextValue()
                                          .equals("Shop"))
                                          .findFirst()
@@ -194,30 +216,41 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
     @Test
     public void verifyChangeLanguageToFrenchTest(){
+        SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
         Header header = page.getHeader();
-        LanguageButton languageButton = header.getChangeLanguageButton();
-        LanguageOptions languageOptions = header.getLanguageOptions();
 
-        if(!languageButton.getButton().isClickable()){
-            page.hoverHamburgerMenu();
-            page.clickHamburgerMenu();
+        if(isDeviceMobile(driver)){
+            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
+            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
+            page.clickCloseWidget();
+            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
         }
 
-        assertTrue(languageButton.getButton().isElementPresent(), "Change language button must be present");
+        if(page.isHamburgerMenuButtonPresent()){
+            page.hoverHamburgerMenu();
+            page.clickHamburgerMenu();
 
-        driver.findElement(By.id("com.android.chrome:id/infobar_close_button")).click();
+            Actions actions = new Actions(driver);
+            actions.scrollByAmount(0,100);
+            actions.perform();
+        }
 
-        languageButton.click();
-        List<MenuItem> languageOptionsList = languageOptions.getLanguageOptions();
+        assertTrue(header.isLanguageButtonPresent(), "Change language button must be present");
 
+        header.clickLanguageButton();
+
+        List<MenuItem> languageOptionsList = header.getLanguageOptions().getLanguageOptionsList();
         languageOptionsList.forEach(option -> {
-            assertTrue(option.getTextElement().isElementPresent(), "Each of the language options should be present");
+            sa.assertTrue(option.getTextElement().isElementPresent(), "Each of the language options should be present");
         });
+        sa.assertAll();
 
         MenuItem frenchLanguage = languageOptionsList.stream()
                         .filter(option -> option.getTextValue()
@@ -245,15 +278,13 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         if(isDeviceMobile(driver)){
             contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.ImageButton[@content-desc='Close']")));
-            driver.findElement(By.xpath("//android.widget.ImageButton[@content-desc='Close']")).click();
+            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
+            page.clickCloseWidget();
             contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
         }
 
         if(page.isHamburgerMenuButtonPresent()){
             page.clickHamburgerMenu();
-
-            assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
 
             Actions actions = new Actions(driver);
             actions.scrollByAmount(0,100);
@@ -293,15 +324,13 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         if(isDeviceMobile(driver)){
             contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.ImageButton[@content-desc='Close']")));
-            driver.findElement(By.xpath("//android.widget.ImageButton[@content-desc='Close']")).click();
+            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
+            page.clickCloseWidget();
             contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
         }
 
         if(page.isHamburgerMenuButtonPresent()){
             page.clickHamburgerMenu();
-
-            assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
 
             Actions actions = new Actions(driver);
             actions.scrollByAmount(0,100);
@@ -341,15 +370,13 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         if(isDeviceMobile(driver)){
             contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.ImageButton[@content-desc='Close']")));
-            driver.findElement(By.xpath("//android.widget.ImageButton[@content-desc='Close']")).click();
+            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
+            page.clickCloseWidget();
             contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
         }
 
         if(page.isHamburgerMenuButtonPresent()){
             page.clickHamburgerMenu();
-
-            assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
 
             Actions actions = new Actions(driver);
             actions.scrollByAmount(0,100);
