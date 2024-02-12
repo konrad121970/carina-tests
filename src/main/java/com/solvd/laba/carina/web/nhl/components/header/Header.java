@@ -63,4 +63,11 @@ public class Header extends AbstractUIObject {
         return new LogInPage(driver);
     }
 
+    public void hoverSignInButton(){
+        signInButton.hover();
+    }
+
+
+
+
 }
