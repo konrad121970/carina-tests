@@ -15,6 +15,9 @@ public class SecondaryNavBar extends AbstractUIObject {
     @FindBy(xpath = ".//*[@aria-label='Shop Menu']/ul/li")
     private List<MenuItem> shopDropdownMenu;
 
+    @FindBy(xpath = "//*[@data-js-hamburger-btn]")
+    private ExtendedWebElement secondaryNavbarHamburgerMenu;
+
     public SecondaryNavBar(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -25,5 +28,20 @@ public class SecondaryNavBar extends AbstractUIObject {
 
     public List<MenuItem> getShopDropdownMenu() {
         return shopDropdownMenu;
+    }
+
+    public ExtendedWebElement getSecondaryNavbarHamburgerMenu() {
+        return secondaryNavbarHamburgerMenu;
+    }
+
+    public void clickHamburgerMenu(){
+        secondaryNavbarHamburgerMenu.click();
+    }
+    public void hoverHamburgerMenu(){
+        secondaryNavbarHamburgerMenu.hover();
+    }
+
+    public boolean isHamburgerMenuButtonPresent(){
+        return secondaryNavbarHamburgerMenu.isElementPresent();
     }
 }
