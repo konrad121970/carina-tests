@@ -1,5 +1,6 @@
 package com.solvd.laba.carina.web.nhl;
 
+import com.google.common.math.Stats;
 import com.solvd.laba.carina.web.nhl.components.footer.Footer;
 import com.solvd.laba.carina.web.nhl.components.header.Header;
 import com.solvd.laba.carina.web.nhl.components.loginbox.LogInBox;
@@ -7,6 +8,7 @@ import com.solvd.laba.carina.web.nhl.components.navbar.MenuItem;
 import com.solvd.laba.carina.web.nhl.components.navbar.SecondaryNavBar;
 import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
 import com.solvd.laba.carina.web.nhl.components.searchresult.SearchResult;
+import com.solvd.laba.carina.web.nhl.enums.MenuOptions;
 import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
 import com.solvd.laba.carina.web.nhl.pages.desktop.InfoPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.LogInPage;
@@ -28,7 +30,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class HomePageTest extends AbstractTest implements DeviceUtils {
+public class HomePageTest extends NhlAbstractTest {
 
 
     @Test
@@ -42,25 +44,9 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
         sa.assertEquals(page.getTitle(), "Official Site of the National Hockey League | NHL.com", "Page title should be as expected");
         sa.assertAll();
 
-        List<MenuItem> list = page.getHeader().getSecondaryNavBar().getMenuItems();
+        page.getHeader().clickMenuItem(MenuOptions.STATS);
 
-        MenuItem menuItem = list.stream()
-                .filter(item -> item.getTextValue().equals("Stats"))
-                .findFirst()
-                .orElse(null);
-
-        if(menuItem == null){
-            page.clickHamburgerMenu();
-
-            list = page.getHeader().getSecondaryNavBar().getMenuItems();
-            menuItem = list.stream()
-                    .filter(item -> item.getTextValue().equals("Stats"))
-                    .findFirst()
-                    .orElse(null);
-        }
-
-        assertNotNull(menuItem, "There must be 'Stats' menu item present");
-        StatsPage statsPage =  menuItem.clickAndReturnNewPage(StatsPage.class);
+        StatsPage statsPage = new StatsPage(driver);
         sa.assertEquals(statsPage.getTitle(), "NHL Stats | NHL.com", "Title of the stats page should be as expected.");
         sa.assertAll();
 
@@ -78,7 +64,7 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         page.open();
 
-        assertTrue(page.getHeader().getSearchButton().isElementPresent(1), "Search button must be present");
+        assertTrue(page.getHeader().isSearchButtonPresent(), "Search button must be present");
         SearchPage searchPage = page.getHeader().clickSearchButton();
 
         SearchBar searchBar = searchPage.getSearchBar();
@@ -108,8 +94,6 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
@@ -149,16 +133,7 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         page.open();
 
-        if(isDeviceMobile(driver)){
-            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
-            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
-            page.clickCloseWidget();
-            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
-
-            Actions actions = new Actions(driver);
-            actions.scrollByAmount(0,20000);
-            actions.perform();
-        }
+        closeModalIfPresent();
 
         Footer footer = page.getFooter();
         List<MenuItem> mainFooterItems = footer.getMainItems();
@@ -188,9 +163,9 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
         Header header = page.getHeader();
         SecondaryNavBar secondaryNavBar = header.getSecondaryNavBar();
 
-        if(page.isHamburgerMenuButtonPresent()){
-            page.hoverHamburgerMenu();
-            page.clickHamburgerMenu();
+        if(secondaryNavBar.isHamburgerMenuButtonPresent()){
+            secondaryNavBar.hoverHamburgerMenu();
+            secondaryNavBar.clickHamburgerMenu();
         }
 
         List<MenuItem> navItems = secondaryNavBar.getMenuItems();
@@ -219,23 +194,16 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
         Header header = page.getHeader();
 
-        if(isDeviceMobile(driver)){
-            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
-            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
-            page.clickCloseWidget();
-            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
-        }
+        closeModalIfPresent();
 
-        if(page.isHamburgerMenuButtonPresent()){
-            page.hoverHamburgerMenu();
-            page.clickHamburgerMenu();
+        if(header.getSecondaryNavBar().isHamburgerMenuButtonPresent()){
+            header.getSecondaryNavBar().hoverHamburgerMenu();
+            header.getSecondaryNavBar().clickHamburgerMenu();
 
             Actions actions = new Actions(driver);
             actions.scrollByAmount(0,100);
@@ -246,7 +214,7 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         header.clickLanguageButton();
 
-        List<MenuItem> languageOptionsList = header.getLanguageOptions().getLanguageOptionsList();
+        List<MenuItem> languageOptionsList = header.getLanguageOptionsList();
         languageOptionsList.forEach(option -> {
             sa.assertTrue(option.getTextElement().isElementPresent(), "Each of the language options should be present");
         });
@@ -269,29 +237,22 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
         Header header = page.getHeader();
 
-        if(isDeviceMobile(driver)){
-            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
-            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
-            page.clickCloseWidget();
-            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
-        }
+        closeModalIfPresent();
 
-        if(page.isHamburgerMenuButtonPresent()){
-            page.clickHamburgerMenu();
+        if(header.getSecondaryNavBar().isHamburgerMenuButtonPresent()){
+            header.getSecondaryNavBar().clickHamburgerMenu();
 
             Actions actions = new Actions(driver);
             actions.scrollByAmount(0,100);
             actions.perform();
         }
 
-        assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+        assertTrue(header.isSignInButtonPresent(),"Sign In button should be present.");
 
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
@@ -322,22 +283,17 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         Header header = page.getHeader();
 
-        if(isDeviceMobile(driver)){
-            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
-            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
-            page.clickCloseWidget();
-            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
-        }
+        closeModalIfPresent();
 
-        if(page.isHamburgerMenuButtonPresent()){
-            page.clickHamburgerMenu();
+        if(header.getSecondaryNavBar().isHamburgerMenuButtonPresent()){
+            header.getSecondaryNavBar().clickHamburgerMenu();
 
             Actions actions = new Actions(driver);
             actions.scrollByAmount(0,100);
             actions.perform();
         }
 
-        assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+        assertTrue(header.isSignInButtonPresent(),"Sign In button should be present.");
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
 
@@ -368,22 +324,17 @@ public class HomePageTest extends AbstractTest implements DeviceUtils {
 
         Header header = page.getHeader();
 
-        if(isDeviceMobile(driver)){
-            contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
-            wait.until(ExpectedConditions.visibilityOf(page.getCloseWidget()));
-            page.clickCloseWidget();
-            contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
-        }
+        closeModalIfPresent();
 
-        if(page.isHamburgerMenuButtonPresent()){
-            page.clickHamburgerMenu();
+        if(header.getSecondaryNavBar().isHamburgerMenuButtonPresent()){
+            header.getSecondaryNavBar().clickHamburgerMenu();
 
             Actions actions = new Actions(driver);
             actions.scrollByAmount(0,100);
             actions.perform();
         }
 
-        assertTrue(header.getSignInButton().isElementPresent(),"Sign In button should be present.");
+        assertTrue(header.isSignInButtonPresent(),"Sign In button should be present.");
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
 
