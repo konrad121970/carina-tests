@@ -40,14 +40,6 @@ public abstract class HomePageBase extends AbstractPage {
         return topStoriesHeading;
     }
 
-    public abstract void  clickHamburgerMenu();
-    public abstract void hoverHamburgerMenu();
-
-    public abstract boolean isHamburgerMenuButtonPresent();
-
-    public abstract void clickCloseWidget();
-    public abstract ExtendedWebElement getCloseWidget();
-
     @Override
     public void open(){
         super.open();

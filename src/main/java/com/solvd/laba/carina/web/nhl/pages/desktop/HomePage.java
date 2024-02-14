@@ -11,26 +11,4 @@ public class HomePage extends HomePageBase {
         super(driver);
     }
 
-    @Override
-    public void clickHamburgerMenu() {
-
-    }
-    @Override
-    public void hoverHamburgerMenu(){
-
-    }
-    @Override
-    public boolean isHamburgerMenuButtonPresent() {
-        return false;
-    }
-
-    @Override
-    public void clickCloseWidget() {
-
-    }
-
-    @Override
-    public ExtendedWebElement getCloseWidget() {
-        return null;
-    }
 }

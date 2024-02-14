@@ -9,36 +9,10 @@ import org.openqa.selenium.support.FindBy;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = HomePageBase.class)
 public class HomePage extends HomePageBase {
 
-    @FindBy(xpath = "//*[@data-js-hamburger-btn]")
-    private ExtendedWebElement secondaryNavbarHamburgerMenu;
-
-    @FindBy(xpath = "//android.widget.ImageButton[@content-desc='Close']")
-    private ExtendedWebElement closeWidget;
-
     public HomePage(WebDriver driver) {
         super(driver);
     }
-    @Override
-    public void clickHamburgerMenu(){
-        secondaryNavbarHamburgerMenu.click();
-    }
-    @Override
-    public void hoverHamburgerMenu(){
-        secondaryNavbarHamburgerMenu.hover();
-    }
 
-    public ExtendedWebElement getSecondaryNavbarHamburgerMenu() {
-        return secondaryNavbarHamburgerMenu;
-    }
 
-    public ExtendedWebElement getCloseWidget() {
-        return closeWidget;
-    }
-    public void clickCloseWidget(){
-        closeWidget.click();
-    }
 
-    public boolean isHamburgerMenuButtonPresent(){
-        return secondaryNavbarHamburgerMenu.isElementPresent();
-    }
 }
