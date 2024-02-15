@@ -13,7 +13,7 @@ import java.time.ZonedDateTime;
 public class UserTest {
 
     @Test
-    public void verifyGetUserByUsername(){
+    public void verifyGetUserByUsername() {
         User user = new User();
         user.setUsername("konrad121970");
         user.setFirstName("Konrad");
@@ -26,18 +26,18 @@ public class UserTest {
         getUserByUsername.callAPI();
 
         JsonComparatorContext comparatorContext = JsonComparatorContext.context()
-                        .<String>withPredicate("datePredicate", date -> isDateValid(date) && ZonedDateTime.parse(date).isAfter(LocalDate.of(2000,1,1).atStartOfDay(ZoneId.systemDefault())));
+                .<String>withPredicate("datePredicate", date -> isDateValid(date) && ZonedDateTime.parse(date).isAfter(LocalDate.of(2000, 1, 1).atStartOfDay(ZoneId.systemDefault())));
 
         getUserByUsername.validateResponse(comparatorContext);
 
 
     }
 
-    private boolean isDateValid(String date){
-        try{
+    private boolean isDateValid(String date) {
+        try {
             ZonedDateTime.parse(date);
             return true;
-        } catch (DateTimeException e){
+        } catch (DateTimeException e) {
             return false;
         }
     }

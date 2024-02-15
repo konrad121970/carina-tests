@@ -1,6 +1,5 @@
 package com.solvd.laba.carina.web.nhl.pages.android;
 
-import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
 import com.solvd.laba.carina.web.nhl.pages.common.InfoPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;

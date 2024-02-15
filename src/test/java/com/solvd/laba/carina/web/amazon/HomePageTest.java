@@ -1,9 +1,9 @@
 package com.solvd.laba.carina.web.amazon;
 
-import com.solvd.laba.carina.web.amazon.pages.HomePage;
-import com.solvd.laba.carina.web.amazon.pages.SearchPage;
 import com.solvd.laba.carina.web.amazon.components.ProductCard;
 import com.solvd.laba.carina.web.amazon.components.SearchBar;
+import com.solvd.laba.carina.web.amazon.pages.HomePage;
+import com.solvd.laba.carina.web.amazon.pages.SearchPage;
 import com.zebrunner.carina.core.AbstractTest;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -15,11 +15,11 @@ import java.util.List;
 public class HomePageTest extends AbstractTest {
 
     @Test
-    public void verifySearchLineTest(){
+    public void verifySearchLineTest() {
         String brandName = "iPhone";
 
         SoftAssert sa = new SoftAssert();
-        WebDriver driver =  getDriver();
+        WebDriver driver = getDriver();
         HomePage page = new HomePage(driver);
 
         page.open();
@@ -44,7 +44,6 @@ public class HomePageTest extends AbstractTest {
         });
 
         sa.assertAll();
-
 
 
     }

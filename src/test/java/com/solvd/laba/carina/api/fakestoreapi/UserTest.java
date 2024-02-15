@@ -21,9 +21,9 @@ public class UserTest {
     private User user;
 
     @BeforeClass
-    public void setUp(){
+    public void setUp() {
         Name name = new Name("Andrzej", "Kowalski");
-        Geolocation geo = new Geolocation(1.11,2.22);
+        Geolocation geo = new Geolocation(1.11, 2.22);
         Address address = new Address(geo, "Dubiny", "Główna", 161, "17-200");
         user = new User(1, address, "dubiny@hajnowka.pl", "mor_2314", "83r5^_", name, "123123123");
     }
@@ -50,7 +50,7 @@ public class UserTest {
     }
 
     @Test
-    public void verifyUpdateUserById(){
+    public void verifyUpdateUserById() {
         UpdateUser updateUser = new UpdateUser(user.getId());
         updateUser.addProperty("user", user);
 
@@ -60,7 +60,7 @@ public class UserTest {
     }
 
     @Test
-    public void verifyLoginWithValidCredentails(){
+    public void verifyLoginWithValidCredentails() {
         LoginUser loginUser = new LoginUser();
         user.setPassword("83r5^_"); //valid password
         loginUser.addProperty("user", user);
@@ -72,7 +72,7 @@ public class UserTest {
     }
 
     @Test
-    public void verifyLoginWithInvalidCredentials(){
+    public void verifyLoginWithInvalidCredentials() {
         LoginUser loginUser = new LoginUser();
         user.setPassword("konrad"); // wrong password
         loginUser.addProperty("user", user);
@@ -84,7 +84,7 @@ public class UserTest {
     }
 
     @Test(dataProvider = "DP1")
-    public void verifyDeleteUser(Integer userId){
+    public void verifyDeleteUser(Integer userId) {
         User user = new User();
         user.setId(userId);
 
@@ -98,8 +98,8 @@ public class UserTest {
     }
 
     @DataProvider(name = "DP1")
-    public Object[][] provideUSerIds(){
-        return new Object[][] {
+    public Object[][] provideUSerIds() {
+        return new Object[][]{
                 {1},
                 {2},
                 {3},

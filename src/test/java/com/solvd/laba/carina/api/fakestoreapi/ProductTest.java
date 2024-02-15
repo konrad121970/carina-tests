@@ -7,7 +7,6 @@ import com.solvd.laba.carina.api.fakestoreapi.controller.product.UpdateProduct;
 import com.solvd.laba.carina.api.fakestoreapi.domain.product.Product;
 import com.zebrunner.agent.core.registrar.domain.ObjectMapperImpl;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
-import com.zebrunner.carina.core.registrar.tag.TestTag;
 import kong.unirest.ObjectMapper;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -34,7 +33,7 @@ public class ProductTest {
     }
 
     @Test(dataProvider = "DP2")
-    public void addNewProduct(String title, String category, String image, Double price, String description){
+    public void addNewProduct(String title, String category, String image, Double price, String description) {
         AddNewProduct addNewProduct = new AddNewProduct();
 
         Product product = new Product();
@@ -52,7 +51,7 @@ public class ProductTest {
 
 
     @Test(dataProvider = "DP1")
-    public void updateProduct(Integer id, String title, String category, String image, Double price, String description){
+    public void updateProduct(Integer id, String title, String category, String image, Double price, String description) {
         Product product = new Product();
         product.setId(id);
         product.setTitle(title);
@@ -69,7 +68,7 @@ public class ProductTest {
     }
 
     @Test(dataProvider = "DP3")
-    public void deleteProduct(Integer productId){
+    public void deleteProduct(Integer productId) {
         Product product = new Product();
         product.setId(productId);
 
@@ -82,8 +81,8 @@ public class ProductTest {
     }
 
     @DataProvider(name = "DP1")
-    public Object[][] provideProducts(){
-        return new Object[][] {
+    public Object[][] provideProducts() {
+        return new Object[][]{
                 {2, "Product1", "Electronics", "https://alasdl.com", 15.0, "LOrem"},
                 {5, "Product2", "Karamba", "https://alasdl.com", 129.0, "LOrem ipsum"},
                 {8, "Product3", "Clothing", "https://example.com", 49.99, "Description 3"},
@@ -92,8 +91,8 @@ public class ProductTest {
     }
 
     @DataProvider(name = "DP2")
-    public Object[][] provideProductsWithoutIds(){
-        return new Object[][] {
+    public Object[][] provideProductsWithoutIds() {
+        return new Object[][]{
                 {"Product1", "Electronics", "https://alasdl.com", 15.0, "LOrem"},
                 {"Product2", "Karamba", "https://alasdl.com", 129.0, "LOrem ipsum"},
                 {"Product3", "Clothing", "https://example.com", 49.99, "Description 3"},
@@ -102,8 +101,8 @@ public class ProductTest {
     }
 
     @DataProvider(name = "DP3")
-    public Object[][] provideProductIds(){
-        return new Object[][] {
+    public Object[][] provideProductIds() {
+        return new Object[][]{
                 {1}, // 2
                 {2}, // 5
                 {15}, // 8

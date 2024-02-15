@@ -6,8 +6,6 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
 public class ProductCard extends AbstractUIObject {
 
     @FindBy(xpath = ".//h2//*[text()]")
@@ -21,7 +19,7 @@ public class ProductCard extends AbstractUIObject {
         return titleElement;
     }
 
-    public String getTitleText(){
+    public String getTitleText() {
         return titleElement.getText();
     }
 }

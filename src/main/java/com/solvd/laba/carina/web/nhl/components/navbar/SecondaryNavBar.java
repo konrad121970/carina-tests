@@ -34,14 +34,15 @@ public class SecondaryNavBar extends AbstractUIObject {
         return secondaryNavbarHamburgerMenu;
     }
 
-    public void clickHamburgerMenu(){
+    public void clickHamburgerMenu() {
         secondaryNavbarHamburgerMenu.click();
     }
-    public void hoverHamburgerMenu(){
+
+    public void hoverHamburgerMenu() {
         secondaryNavbarHamburgerMenu.hover();
     }
 
-    public boolean isHamburgerMenuButtonPresent(){
+    public boolean isHamburgerMenuButtonPresent() {
         return secondaryNavbarHamburgerMenu.isElementPresent();
     }
 }

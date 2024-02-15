@@ -15,7 +15,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class Header extends AbstractUIObject implements DeviceUtils{
+public class Header extends AbstractUIObject implements DeviceUtils {
 
     @FindBy(xpath = ".//nav[contains(@aria-label, 'Main')]")
     private PrimaryNavBar primaryNavBar;
@@ -34,10 +34,10 @@ public class Header extends AbstractUIObject implements DeviceUtils{
         super(driver, searchContext);
     }
 
-    public void clickMenuItem(MenuOptions option){
-        if(option.getNavbarNumber() == 1){
+    public void clickMenuItem(MenuOptions option) {
+        if (option.getNavbarNumber() == 1) {
             primaryNavBar.getMenuItems().stream().filter(menuItem -> menuItem.getTextValue().equals(option.getName())).findFirst().get().click();
-        } else if(isDeviceDesktop(driver)) {
+        } else if (isDeviceDesktop(driver)) {
             secondaryNavBar.getMenuItems().stream().filter(menuItem -> menuItem.getTextValue().equals(option.getName())).findFirst().get().click();
         } else {
             secondaryNavBar.clickHamburgerMenu();
@@ -58,41 +58,39 @@ public class Header extends AbstractUIObject implements DeviceUtils{
         return languageOptions.getLanguageOptionsList();
     }
 
-    public SearchPage clickSearchButton(){
+    public SearchPage clickSearchButton() {
         searchButton.click();
         return new SearchPage(getDriver());
     }
 
-    public boolean isSearchButtonPresent(){
-        return  searchButton.isElementPresent();
+    public boolean isSearchButtonPresent() {
+        return searchButton.isElementPresent();
     }
 
-    public LogInPage clickSignInButton(){
+    public LogInPage clickSignInButton() {
         signInButton.click();
         return new LogInPage(driver);
     }
 
-    public boolean isSignInButtonPresent(){
+    public boolean isSignInButtonPresent() {
         return signInButton.isElementPresent();
     }
 
-    public void hoverSignInButton(){
+    public void hoverSignInButton() {
         signInButton.hover();
     }
 
-    public boolean isLanguageButtonClickable(){
+    public boolean isLanguageButtonClickable() {
         return changeLanguageButton.isLanguageButtonClickable();
     }
 
-    public boolean isLanguageButtonPresent(){
+    public boolean isLanguageButtonPresent() {
         return changeLanguageButton.isLanguageButtonPresent();
     }
 
-    public void clickLanguageButton(){
+    public void clickLanguageButton() {
         changeLanguageButton.clickLanguageButton();
     }
-
-
 
 
 }

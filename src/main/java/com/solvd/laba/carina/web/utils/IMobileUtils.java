@@ -15,36 +15,6 @@
  *******************************************************************************/
 package com.solvd.laba.carina.web.utils;
 
-import static org.openqa.selenium.interactions.PointerInput.MouseButton.LEFT;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.time.Duration;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.interactions.Interactive;
-import org.openqa.selenium.interactions.Pause;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-
 import com.zebrunner.carina.utils.android.AndroidService;
 import com.zebrunner.carina.utils.android.DeviceTimeZone;
 import com.zebrunner.carina.utils.android.IAndroidUtils;
@@ -55,23 +25,8 @@ import com.zebrunner.carina.webdriver.DriverHelper;
 import com.zebrunner.carina.webdriver.IDriverPool;
 import com.zebrunner.carina.webdriver.config.WebDriverConfiguration;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-
-import io.appium.java_client.HasAppStrings;
-import io.appium.java_client.HasDeviceTime;
-import io.appium.java_client.HasOnScreenKeyboard;
-import io.appium.java_client.HasSettings;
-import io.appium.java_client.HidesKeyboard;
-import io.appium.java_client.InteractsWithApps;
-import io.appium.java_client.LocksDevice;
-import io.appium.java_client.PullsFiles;
-import io.appium.java_client.PushesFiles;
-import io.appium.java_client.Setting;
-import io.appium.java_client.SupportsLegacyAppManagement;
-import io.appium.java_client.appmanagement.ApplicationState;
-import io.appium.java_client.appmanagement.BaseActivateApplicationOptions;
-import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
-import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
-import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
+import io.appium.java_client.*;
+import io.appium.java_client.appmanagement.*;
 import io.appium.java_client.clipboard.ClipboardContentType;
 import io.appium.java_client.clipboard.HasClipboard;
 import io.appium.java_client.remote.SupportsContextSwitching;
@@ -80,6 +35,27 @@ import io.appium.java_client.remote.SupportsRotation;
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
 import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 import io.appium.java_client.screenrecording.CanRecordScreen;
+import org.openqa.selenium.*;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.interactions.Interactive;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+
+import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+import java.time.Duration;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.openqa.selenium.interactions.PointerInput.MouseButton.LEFT;
 
 /**
  * Contains utility methods for working with android and ios
@@ -103,22 +79,6 @@ public interface IMobileUtils extends IDriverPool {
     int DEFAULT_MAX_SWIPE_COUNT = 50;
     int DEFAULT_MIN_SWIPE_COUNT = 1;
     DriverHelper helper = new DriverHelper();
-
-    enum Direction {
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN,
-        VERTICAL,
-        HORIZONTAL,
-        VERTICAL_DOWN_FIRST,
-        HORIZONTAL_RIGHT_FIRST
-    }
-
-    enum Zoom {
-        IN,
-        OUT
-    }
 
     /**
      * Tap the center of element
@@ -365,16 +325,11 @@ public interface IMobileUtils extends IDriverPool {
      * scrolling will not be performed.
      * <p>
      *
-     * @param element
-     *            element to which it will be scrolled
-     * @param container
-     *            element, inside which scrolling is expected. null to scroll
-     * @param direction
-     *            direction of scrolling. HORIZONTAL and VERTICAL support swiping in both directions automatically
-     * @param count
-     *            for how long to scroll, ms
-     * @param duration
-     *            pulling timeout, ms
+     * @param element   element to which it will be scrolled
+     * @param container element, inside which scrolling is expected. null to scroll
+     * @param direction direction of scrolling. HORIZONTAL and VERTICAL support swiping in both directions automatically
+     * @param count     for how long to scroll, ms
+     * @param duration  pulling timeout, ms
      * @return boolean
      * @throws UnsupportedOperationException if driver does not support this feature
      */
@@ -996,8 +951,6 @@ public interface IMobileUtils extends IDriverPool {
         driver.closeApp();
     }
 
-    // TODO Update this method using findByImage strategy
-
     /**
      * Pressing bottom right button on the keyboard by coordinates: "search", "ok",
      * "next", etc. - various keys appear at this position. Tested at Nexus 6P
@@ -1037,6 +990,8 @@ public interface IMobileUtils extends IDriverPool {
         return element.isElementPresent(5)
                 && (element.getElement().isSelected() || element.getAttribute("checked").equals("true"));
     }
+
+    // TODO Update this method using findByImage strategy
 
     /**
      * Checks if an app is installed on the device
@@ -1154,7 +1109,7 @@ public interface IMobileUtils extends IDriverPool {
      * application is in background.
      *
      * @param duration The time to run App in background. Minimum time resolution is one millisecond.
-     *            Passing zero or a negative value will switch to Home screen and return immediately.
+     *                 Passing zero or a negative value will switch to Home screen and return immediately.
      */
     default void runAppInBackground(Duration duration) {
         InteractsWithApps driver = null;
@@ -1372,9 +1327,9 @@ public interface IMobileUtils extends IDriverPool {
      * on the internal file system
      *
      * @param remotePath If the path starts with <em>@applicationId/</em>/ prefix, then the file
-     *            will be pulled from the root of the corresponding application container.
-     *            Otherwise, the root folder is considered as / on Android and
-     *            on iOS it is a media folder root (real devices only).
+     *                   will be pulled from the root of the corresponding application container.
+     *                   Otherwise, the root folder is considered as / on Android and
+     *                   on iOS it is a media folder root (real devices only).
      * @return A byte array of Base64 encoded data
      * @throws UnsupportedOperationException if driver does not support this feature
      */
@@ -1394,9 +1349,9 @@ public interface IMobileUtils extends IDriverPool {
      * on the internal file system.
      *
      * @param remotePath If the path starts with <em>@applicationId/</em> prefix, then the folder
-     *            will be pulled from the root of the corresponding application container.
-     *            Otherwise, the root folder is considered as / on Android and
-     *            on iOS it is a media folder root (real devices only).
+     *                   will be pulled from the root of the corresponding application container.
+     *                   Otherwise, the root folder is considered as / on Android and
+     *                   on iOS it is a media folder root (real devices only).
      * @return A byte array of Base64 encoded zip archive data.
      * @throws UnsupportedOperationException if driver does not support this feature
      */
@@ -1549,13 +1504,13 @@ public interface IMobileUtils extends IDriverPool {
      * Saves base64 encoded data as a media file on the remote system.
      *
      * @param remotePath Path to file to write data to on remote device
-     *            Only the filename part matters there on Simulator, so the remote end
-     *            can figure out which type of media data it is and save
-     *            it into a proper folder on the target device. Check
-     *            'xcrun simctl addmedia' output to get more details on
-     *            supported media types.
-     *            If the path starts with <em>@applicationId/</em> prefix, then the file
-     *            will be pushed to the root of the corresponding application container.
+     *                   Only the filename part matters there on Simulator, so the remote end
+     *                   can figure out which type of media data it is and save
+     *                   it into a proper folder on the target device. Check
+     *                   'xcrun simctl addmedia' output to get more details on
+     *                   supported media types.
+     *                   If the path starts with <em>@applicationId/</em> prefix, then the file
+     *                   will be pushed to the root of the corresponding application container.
      * @param base64Data Base64 encoded byte array of media file data to write to remote device
      * @throws UnsupportedOperationException if driver does not support this feature
      */
@@ -1881,5 +1836,21 @@ public interface IMobileUtils extends IDriverPool {
         } catch (ClassCastException e) {
             throw new UnsupportedOperationException("Driver is not support dragAndDrop method", e);
         }
+    }
+
+    enum Direction {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
+        VERTICAL,
+        HORIZONTAL,
+        VERTICAL_DOWN_FIRST,
+        HORIZONTAL_RIGHT_FIRST
+    }
+
+    enum Zoom {
+        IN,
+        OUT
     }
 }

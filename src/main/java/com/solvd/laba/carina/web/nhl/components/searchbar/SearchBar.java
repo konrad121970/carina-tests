@@ -18,11 +18,11 @@ public class SearchBar extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public void inputSearchQuery(String value){
+    public void inputSearchQuery(String value) {
         textInput.type(value);
     }
 
-    public void clickSearchButton(){
+    public void clickSearchButton() {
         searchButton.click();
     }
 
@@ -30,7 +30,7 @@ public class SearchBar extends AbstractUIObject {
         return textInput;
     }
 
-    public String getTextInputPlaceholder(){
+    public String getTextInputPlaceholder() {
         return textInput.getAttribute("placeholder");
     }
 

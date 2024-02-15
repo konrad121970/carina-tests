@@ -24,6 +24,7 @@ public class Geolocation {
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
+
     @JsonProperty("long")
     public Double getLongitude() {
         return longitude;

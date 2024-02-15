@@ -1,7 +1,6 @@
 package com.solvd.laba.carina.web.nhl.pages.android;
 
 import com.solvd.laba.carina.web.nhl.components.loginbox.LogInBox;
-import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
 import com.solvd.laba.carina.web.nhl.pages.common.LoginPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;

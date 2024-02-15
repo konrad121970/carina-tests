@@ -1,6 +1,5 @@
 package com.solvd.laba.carina.web.nhl;
 
-import com.google.common.math.Stats;
 import com.solvd.laba.carina.web.nhl.components.footer.Footer;
 import com.solvd.laba.carina.web.nhl.components.header.Header;
 import com.solvd.laba.carina.web.nhl.components.loginbox.LogInBox;
@@ -14,13 +13,10 @@ import com.solvd.laba.carina.web.nhl.pages.desktop.InfoPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.LogInPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.SearchPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.StatsPage;
-import com.solvd.laba.carina.web.utils.DeviceUtils;
 import com.solvd.laba.carina.web.utils.MobileContextUtils;
-import com.zebrunner.carina.core.AbstractTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -34,9 +30,9 @@ public class HomePageTest extends NhlAbstractTest {
 
 
     @Test
-    public void verifyNavigateToStatsPageTest(){
+    public void verifyNavigateToStatsPageTest() {
         SoftAssert sa = new SoftAssert();
-        WebDriver driver =  getDriver();
+        WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
@@ -55,11 +51,11 @@ public class HomePageTest extends NhlAbstractTest {
     }
 
     @Test
-    public void verifySearchTextTest(){
+    public void verifySearchTextTest() {
         String searchPhrase = "hi";
 
         SoftAssert sa = new SoftAssert();
-        WebDriver driver =  getDriver();
+        WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
@@ -79,7 +75,7 @@ public class HomePageTest extends NhlAbstractTest {
         searchBar.clickSearchButton();
 
         List<SearchResult> searchResults = searchPage.getSearchResult();
-        sa.assertTrue( searchResults.size() > 3, "There should be more than 3 results");
+        sa.assertTrue(searchResults.size() > 3, "There should be more than 3 results");
 
         searchResults.forEach(result -> {
             sa.assertTrue(result.getHeading().isElementPresent(), "Each of the search result heading should exist");
@@ -100,7 +96,7 @@ public class HomePageTest extends NhlAbstractTest {
         Footer footer = page.getFooter();
         List<MenuItem> socialMenuItems = footer.getSocial();
         sa.assertTrue(socialMenuItems.size() == 8, "There should be eight social accounts present");
-        assertTrue(socialMenuItems.get(0).getTextElement().getAttribute("href").equals("https://www.youtube.com/nhl"), "First link should redirect to NHL's Youtube account");
+        assertEquals(socialMenuItems.get(0).getTextElement().getAttribute("href"), "https://www.youtube.com/nhl", "First link should redirect to NHL's Youtube account");
 
         socialMenuItems.get(0).getTextElement().hover(); // Hover over the image of social media
         socialMenuItems.get(0).getTextElement().click(); // and click it
@@ -124,9 +120,9 @@ public class HomePageTest extends NhlAbstractTest {
     }
 
     @Test
-    public void verifyTermsOfServiceRedirectTest(){
+    public void verifyTermsOfServiceRedirectTest() {
         SoftAssert sa = new SoftAssert();
-        WebDriver driver =  getDriver();
+        WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         MobileContextUtils contextHelper = new MobileContextUtils();
@@ -145,7 +141,7 @@ public class HomePageTest extends NhlAbstractTest {
 
         assertNotNull(menuItem, "There should be 'Terms of Service' footer item present");
         menuItem.getTextElement().hover();
-        InfoPage infoPage =  menuItem.clickAndReturnNewPage(InfoPage.class);
+        InfoPage infoPage = menuItem.clickAndReturnNewPage(InfoPage.class);
 
         assertTrue(infoPage.getCurrentUrl().contains("/info/terms-of-service"), "Opened page should have correct URL");
         assertEquals(infoPage.getMainHeading().getText().toLowerCase(), "terms of service");
@@ -154,7 +150,7 @@ public class HomePageTest extends NhlAbstractTest {
     }
 
     @Test
-    public void verifyOpenNhlShopPageTest(){
+    public void verifyOpenNhlShopPageTest() {
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
 
@@ -163,16 +159,16 @@ public class HomePageTest extends NhlAbstractTest {
         Header header = page.getHeader();
         SecondaryNavBar secondaryNavBar = header.getSecondaryNavBar();
 
-        if(secondaryNavBar.isHamburgerMenuButtonPresent()){
+        if (secondaryNavBar.isHamburgerMenuButtonPresent()) {
             secondaryNavBar.hoverHamburgerMenu();
             secondaryNavBar.clickHamburgerMenu();
         }
 
         List<MenuItem> navItems = secondaryNavBar.getMenuItems();
-        MenuItem shopMenu =  navItems.stream().filter(item -> item.getTextValue()
-                                         .equals("Shop"))
-                                         .findFirst()
-                                         .orElse(null);
+        MenuItem shopMenu = navItems.stream().filter(item -> item.getTextValue()
+                        .equals("Shop"))
+                .findFirst()
+                .orElse(null);
 
         assertNotNull(shopMenu, "'Shop' menu option should exist");
         shopMenu.click();
@@ -190,7 +186,7 @@ public class HomePageTest extends NhlAbstractTest {
     }
 
     @Test
-    public void verifyChangeLanguageToFrenchTest(){
+    public void verifyChangeLanguageToFrenchTest() {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
@@ -201,12 +197,12 @@ public class HomePageTest extends NhlAbstractTest {
 
         closeModalIfPresent();
 
-        if(header.getSecondaryNavBar().isHamburgerMenuButtonPresent()){
+        if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().hoverHamburgerMenu();
             header.getSecondaryNavBar().clickHamburgerMenu();
 
             Actions actions = new Actions(driver);
-            actions.scrollByAmount(0,100);
+            actions.scrollByAmount(0, 100);
             actions.perform();
         }
 
@@ -221,10 +217,10 @@ public class HomePageTest extends NhlAbstractTest {
         sa.assertAll();
 
         MenuItem frenchLanguage = languageOptionsList.stream()
-                        .filter(option -> option.getTextValue()
+                .filter(option -> option.getTextValue()
                         .equals("Français"))
-                        .findFirst()
-                        .orElse(null);
+                .findFirst()
+                .orElse(null);
 
         assertNotNull(frenchLanguage, "French language should be on the language options menu");
         frenchLanguage.click();
@@ -233,7 +229,7 @@ public class HomePageTest extends NhlAbstractTest {
     }
 
     @Test
-    public void verifyPressLoginButtonWithoutCredentialsTest(){
+    public void verifyPressLoginButtonWithoutCredentialsTest() {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
@@ -244,15 +240,15 @@ public class HomePageTest extends NhlAbstractTest {
 
         closeModalIfPresent();
 
-        if(header.getSecondaryNavBar().isHamburgerMenuButtonPresent()){
+        if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().clickHamburgerMenu();
 
             Actions actions = new Actions(driver);
-            actions.scrollByAmount(0,100);
+            actions.scrollByAmount(0, 100);
             actions.perform();
         }
 
-        assertTrue(header.isSignInButtonPresent(),"Sign In button should be present.");
+        assertTrue(header.isSignInButtonPresent(), "Sign In button should be present.");
 
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
@@ -272,7 +268,7 @@ public class HomePageTest extends NhlAbstractTest {
     }
 
     @Test
-    public void verifyPressLoginButtonWithTooShortPasswordTest(){
+    public void verifyPressLoginButtonWithTooShortPasswordTest() {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
@@ -285,15 +281,15 @@ public class HomePageTest extends NhlAbstractTest {
 
         closeModalIfPresent();
 
-        if(header.getSecondaryNavBar().isHamburgerMenuButtonPresent()){
+        if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().clickHamburgerMenu();
 
             Actions actions = new Actions(driver);
-            actions.scrollByAmount(0,100);
+            actions.scrollByAmount(0, 100);
             actions.perform();
         }
 
-        assertTrue(header.isSignInButtonPresent(),"Sign In button should be present.");
+        assertTrue(header.isSignInButtonPresent(), "Sign In button should be present.");
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
 
@@ -308,12 +304,11 @@ public class HomePageTest extends NhlAbstractTest {
         logInBox.clickSignInButton();
 
         assertEquals(logInBox.getPasswordErrorMessage().getText(), "Password must be at least 8 characters long.", "Password validation message should match the expected.");
-        // //div[contains(@class, 'essage-container')]
         sa.assertAll();
     }
 
     @Test
-    public void verifyPressLoginButtonWithInvalidCredentials(){
+    public void verifyPressLoginButtonWithInvalidCredentials() {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
@@ -326,15 +321,15 @@ public class HomePageTest extends NhlAbstractTest {
 
         closeModalIfPresent();
 
-        if(header.getSecondaryNavBar().isHamburgerMenuButtonPresent()){
+        if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().clickHamburgerMenu();
 
             Actions actions = new Actions(driver);
-            actions.scrollByAmount(0,100);
+            actions.scrollByAmount(0, 100);
             actions.perform();
         }
 
-        assertTrue(header.isSignInButtonPresent(),"Sign In button should be present.");
+        assertTrue(header.isSignInButtonPresent(), "Sign In button should be present.");
         LogInPage logInPage = header.clickSignInButton();
         LogInBox logInBox = logInPage.getLogInBox();
 
@@ -349,8 +344,8 @@ public class HomePageTest extends NhlAbstractTest {
         logInBox.clickSignInButton();
 
         assertEquals(driver.findElement(By
-                                        .xpath("//div[contains(@class, 'essage-container')]")).getText()
-                                        ,"The account credentials you entered did not match our records. Please check to make sure you entered them correctly.");
+                        .xpath("//div[contains(@class, 'essage-container')]")).getText()
+                , "The account credentials you entered did not match our records. Please check to make sure you entered them correctly.");
 
         sa.assertAll();
     }

@@ -24,11 +24,11 @@ public class MenuItem extends AbstractUIObject {
         return text.getText();
     }
 
-    public ExtendedWebElement getTextElement(){
+    public ExtendedWebElement getTextElement() {
         return text;
     }
 
-    public <T extends AbstractPage> T clickAndReturnNewPage(Class<T> pageClass){
+    public <T extends AbstractPage> T clickAndReturnNewPage(Class<T> pageClass) {
         text.click();
         try {
             return pageClass.getDeclaredConstructor(WebDriver.class).newInstance(driver);
@@ -37,7 +37,7 @@ public class MenuItem extends AbstractUIObject {
         }
     }
 
-    public void click(){
+    public void click() {
         text.click();
     }
 }

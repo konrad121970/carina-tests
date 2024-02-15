@@ -1,14 +1,12 @@
 package com.solvd.laba.carina.web.nhl.pages.desktop;
 
-import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
-import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
 import com.solvd.laba.carina.web.nhl.pages.common.StatsPageBase;
-import com.zebrunner.carina.api.AbstractApiMethodV2;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+
 @DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = StatsPageBase.class)
 public class StatsPage extends AbstractPage {
 
@@ -23,7 +21,7 @@ public class StatsPage extends AbstractPage {
         return mainHeading;
     }
 
-    public String getMainHeadingText(){
+    public String getMainHeadingText() {
         return mainHeading.getText();
     }
 }

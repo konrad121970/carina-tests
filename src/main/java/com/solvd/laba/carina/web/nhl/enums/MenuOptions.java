@@ -15,9 +15,9 @@ public enum MenuOptions {
     SHOP("Shop", 2, "https://shop.nhl.com/"),
     TICKETS("Tickets", 2, "https://www.nhl.com/tickets/");
 
-    private String name;
-    private int navbarNumber;
-    private String url;
+    private final String name;
+    private final int navbarNumber;
+    private final String url;
 
     MenuOptions(String name, int navbarNumber, String url) {
         this.name = name;

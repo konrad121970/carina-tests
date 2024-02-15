@@ -20,13 +20,14 @@ public class NhlAbstractTest extends AbstractTest implements DeviceUtils {
     public ExtendedWebElement getCloseWidget() {
         return closeWidget;
     }
-    public void clickCloseWidget(){
+
+    public void clickCloseWidget() {
         closeWidget.click();
     }
 
-    protected void closeModalIfPresent(){
+    protected void closeModalIfPresent() {
         WebDriver driver = getDriver();
-        if(isDeviceMobile(driver)){
+        if (isDeviceMobile(driver)) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
             MobileContextUtils contextHelper = new MobileContextUtils();
             contextHelper.switchMobileContext(MobileContextUtils.View.NATIVE);
@@ -35,7 +36,7 @@ public class NhlAbstractTest extends AbstractTest implements DeviceUtils {
             contextHelper.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
 
             Actions actions = new Actions(driver);
-            actions.scrollByAmount(0,20000);
+            actions.scrollByAmount(0, 20000);
             actions.perform();
         }
     }

@@ -17,6 +17,7 @@ public class SearchBar extends AbstractUIObject {
 
     @FindBy(xpath = ".//*[@id = 'nav-search-submit-button']")
     private ExtendedWebElement searchButton;
+
     public SearchBar(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -29,7 +30,7 @@ public class SearchBar extends AbstractUIObject {
         return textInput;
     }
 
-    public String getTextInputPlaceholder(){
+    public String getTextInputPlaceholder() {
         return textInput.getAttribute("placeholder");
     }
 
@@ -37,11 +38,11 @@ public class SearchBar extends AbstractUIObject {
         return searchButton;
     }
 
-    public void typeSearcInputValue(String value){
+    public void typeSearcInputValue(String value) {
         textInput.type(value);
     }
 
-    public SearchPage clickSearchButton(){
+    public SearchPage clickSearchButton() {
         searchButton.click();
         return new SearchPage(getDriver());
     }

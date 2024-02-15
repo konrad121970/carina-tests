@@ -30,14 +30,15 @@ public class LogInBox extends AbstractUIObject {
         return emailInput;
     }
 
-    public void typeEmailInput(String value){
+    public void typeEmailInput(String value) {
         emailInput.type(value);
     }
 
     public ExtendedWebElement getPasswordInput() {
         return passwordInput;
     }
-    public void typePasswordInput(String value){
+
+    public void typePasswordInput(String value) {
         passwordInput.type(value);
     }
 
@@ -61,7 +62,7 @@ public class LogInBox extends AbstractUIObject {
         return signInButton;
     }
 
-    public void clickSignInButton(){
+    public void clickSignInButton() {
         signInButton.click();
     }
 }

@@ -1,6 +1,5 @@
 package com.solvd.laba.carina.web.nhl.pages.android;
 
-import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
 import com.solvd.laba.carina.web.nhl.pages.common.StatsPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -22,7 +21,7 @@ public class StatsPage extends AbstractPage {
         return mainHeading;
     }
 
-    public String getMainHeadingText(){
+    public String getMainHeadingText() {
         return mainHeading.getText();
     }
 }
