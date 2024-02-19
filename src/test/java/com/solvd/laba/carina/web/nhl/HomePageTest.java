@@ -124,8 +124,6 @@ public class HomePageTest extends NhlAbstractTest {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
