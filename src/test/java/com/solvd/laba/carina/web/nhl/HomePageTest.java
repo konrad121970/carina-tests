@@ -7,27 +7,25 @@ import com.solvd.laba.carina.web.nhl.components.navbar.MenuItem;
 import com.solvd.laba.carina.web.nhl.components.navbar.SecondaryNavBar;
 import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
 import com.solvd.laba.carina.web.nhl.components.searchresult.SearchResult;
+import com.solvd.laba.carina.web.nhl.enums.FooterOptions;
 import com.solvd.laba.carina.web.nhl.enums.MenuOptions;
 import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
-import com.solvd.laba.carina.web.nhl.pages.desktop.InfoPage;
+import com.solvd.laba.carina.web.nhl.pages.common.InfoPageBase;
 import com.solvd.laba.carina.web.nhl.pages.desktop.LogInPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.SearchPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.StatsPage;
-import com.solvd.laba.carina.web.utils.MobileContextUtils;
+import com.zebrunner.carina.core.AbstractTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.time.Duration;
 import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class HomePageTest extends NhlAbstractTest {
-
+public class HomePageTest extends AbstractTest {
 
     @Test
     public void verifyNavigateToStatsPageTest() {
@@ -127,19 +125,17 @@ public class HomePageTest extends NhlAbstractTest {
 
         page.open();
 
-        closeModalIfPresent();
+        page.closeModalIfPresent();
 
         Footer footer = page.getFooter();
         List<MenuItem> mainFooterItems = footer.getMainItems();
         sa.assertTrue(mainFooterItems.size() == 8, "There should be eight main links in footer");
-        MenuItem menuItem = mainFooterItems.stream()
-                .filter(menuItem1 -> menuItem1.getTextValue().contains("Terms of Service"))
-                .findFirst()
-                .orElse(null);
 
-        assertNotNull(menuItem, "There should be 'Terms of Service' footer item present");
-        menuItem.getTextElement().hover();
-        InfoPage infoPage = menuItem.clickAndReturnNewPage(InfoPage.class);
+        Actions actions = new Actions(driver);
+        actions.scrollByAmount(0, 30000);
+        actions.perform();
+
+        InfoPageBase infoPage = initPage(driver, footer.clickFooterItemAndReturnPage(FooterOptions.TERMS_OF_SERVICE).getClass());
 
         assertTrue(infoPage.getCurrentUrl().contains("/info/terms-of-service"), "Opened page should have correct URL");
         assertEquals(infoPage.getMainHeading().getText().toLowerCase(), "terms of service");
@@ -193,7 +189,7 @@ public class HomePageTest extends NhlAbstractTest {
 
         Header header = page.getHeader();
 
-        closeModalIfPresent();
+        page.closeModalIfPresent();
 
         if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().hoverHamburgerMenu();
@@ -236,7 +232,7 @@ public class HomePageTest extends NhlAbstractTest {
 
         Header header = page.getHeader();
 
-        closeModalIfPresent();
+        page.closeModalIfPresent();
 
         if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().clickHamburgerMenu();
@@ -270,14 +266,12 @@ public class HomePageTest extends NhlAbstractTest {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
         Header header = page.getHeader();
 
-        closeModalIfPresent();
+        page.closeModalIfPresent();
 
         if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().clickHamburgerMenu();
@@ -310,14 +304,12 @@ public class HomePageTest extends NhlAbstractTest {
         SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        MobileContextUtils contextHelper = new MobileContextUtils();
 
         page.open();
 
         Header header = page.getHeader();
 
-        closeModalIfPresent();
+        page.closeModalIfPresent();
 
         if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().clickHamburgerMenu();

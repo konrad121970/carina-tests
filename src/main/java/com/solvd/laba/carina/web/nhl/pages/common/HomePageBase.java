@@ -1,15 +1,15 @@
 package com.solvd.laba.carina.web.nhl.pages.common;
+//import  com.solvd.laba.carina.web.nhl;
 
 import com.solvd.laba.carina.web.nhl.components.footer.Footer;
 import com.solvd.laba.carina.web.nhl.components.header.Header;
 import com.zebrunner.carina.utils.config.Configuration;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 
-public abstract class HomePageBase extends AbstractPage {
+public abstract class HomePageBase extends NhlAbstractPage {
     @FindBy(xpath = "//header")
     private Header header;
 
