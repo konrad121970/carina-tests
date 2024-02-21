@@ -1,5 +1,6 @@
 package com.solvd.laba.carina.web.nhl.components.navbar;
 
+import com.solvd.laba.carina.web.nhl.enums.ShopDropdownItems;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
@@ -44,5 +45,12 @@ public class SecondaryNavBar extends AbstractUIObject {
 
     public boolean isHamburgerMenuButtonPresent() {
         return secondaryNavbarHamburgerMenu.isElementPresent();
+    }
+
+    public void clickShopDropdownItem(ShopDropdownItems dropdownItem) {
+        if (isHamburgerMenuButtonPresent()) {
+            clickHamburgerMenu();
+        }
+        shopDropdownMenu.stream().filter(option -> option.getTextValue().equals(dropdownItem.getName())).findFirst().get().click();
     }
 }

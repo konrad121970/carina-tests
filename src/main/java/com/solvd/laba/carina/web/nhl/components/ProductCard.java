@@ -13,8 +13,33 @@ public class ProductCard extends AbstractUIObject {
     @FindBy(xpath = ".//div[@class = 'product-card-title']")
     private ExtendedWebElement title;
 
-
     public ProductCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
+
+    public boolean isPricePresent() {
+        return price.isElementPresent();
+    }
+
+    public boolean isTitlePresent() {
+        return title.isElementPresent();
+    }
+
+    public double getPriceValue() {
+        String priceText = price.getText();
+        String[] price = priceText.split("\n"); // Split by endline
+        price[0] = price[0].substring(1); // Get rid of '$'
+
+        return Double.parseDouble(price[0]);
+    }
+
+    public String getTitleText() {
+        return title.getText();
+    }
+
+    public void clickProductCard() {
+        title.click();
+    }
+
+
 }

@@ -11,6 +11,7 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -89,6 +90,13 @@ public class Header extends AbstractUIObject implements DeviceUtils {
     }
 
     public void clickLanguageButton() {
+        if (secondaryNavBar.isHamburgerMenuButtonPresent()) {
+            secondaryNavBar.clickHamburgerMenu();
+
+            Actions actions = new Actions(driver);
+            actions.scrollByAmount(0, 100);
+            actions.perform();
+        }
         changeLanguageButton.clickLanguageButton();
     }
 
