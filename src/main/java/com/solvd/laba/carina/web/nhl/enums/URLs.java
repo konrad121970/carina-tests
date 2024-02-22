@@ -24,7 +24,11 @@ public enum URLs {
     COPYRIGHT_POLICY("https://www.nhl.com/info/copyright-policy"),
     PRIVACY_CHOICES("https://www.nhl.com/info/your-privacy-choices"),
     CAREERS("https://www.nhl.com/info/careers"),
-    ABOUT("https://www.nhl.com/info/about-the-nhl");
+    ABOUT("https://www.nhl.com/info/about-the-nhl"),
+
+    //SHOP
+    SHOP_MEN("https://shop.nhl.com/men");
+
 
     private final String url;
 
