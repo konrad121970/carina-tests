@@ -1,5 +1,6 @@
 package com.solvd.laba.carina.web.nhl;
 
+import com.solvd.laba.carina.web.nhl.components.ProductCard;
 import com.solvd.laba.carina.web.nhl.components.footer.Footer;
 import com.solvd.laba.carina.web.nhl.components.header.Header;
 import com.solvd.laba.carina.web.nhl.components.loginbox.LogInBox;
@@ -9,8 +10,12 @@ import com.solvd.laba.carina.web.nhl.components.searchbar.SearchBar;
 import com.solvd.laba.carina.web.nhl.components.searchresult.SearchResult;
 import com.solvd.laba.carina.web.nhl.enums.FooterOptions;
 import com.solvd.laba.carina.web.nhl.enums.MenuOptions;
+import com.solvd.laba.carina.web.nhl.enums.ShopDropdownItems;
+import com.solvd.laba.carina.web.nhl.enums.URLs;
 import com.solvd.laba.carina.web.nhl.pages.common.HomePageBase;
 import com.solvd.laba.carina.web.nhl.pages.common.InfoPageBase;
+import com.solvd.laba.carina.web.nhl.pages.common.ProductPageBase;
+import com.solvd.laba.carina.web.nhl.pages.common.ShopPageBase;
 import com.solvd.laba.carina.web.nhl.pages.desktop.LogInPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.SearchPage;
 import com.solvd.laba.carina.web.nhl.pages.desktop.StatsPage;
@@ -124,7 +129,6 @@ public class HomePageTest extends AbstractTest {
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
-
         page.closeModalIfPresent();
 
         Footer footer = page.getFooter();
@@ -153,28 +157,27 @@ public class HomePageTest extends AbstractTest {
         Header header = page.getHeader();
         SecondaryNavBar secondaryNavBar = header.getSecondaryNavBar();
 
-        if (secondaryNavBar.isHamburgerMenuButtonPresent()) {
-            secondaryNavBar.hoverHamburgerMenu();
-            secondaryNavBar.clickHamburgerMenu();
-        }
+//        if (secondaryNavBar.isHamburgerMenuButtonPresent()) {
+//            secondaryNavBar.hoverHamburgerMenu();
+//            secondaryNavBar.clickHamburgerMenu();
+//        }
 
-        List<MenuItem> navItems = secondaryNavBar.getMenuItems();
-        MenuItem shopMenu = navItems.stream().filter(item -> item.getTextValue()
-                        .equals("Shop"))
-                .findFirst()
-                .orElse(null);
+        header.clickMenuItem(MenuOptions.SHOP);
 
-        assertNotNull(shopMenu, "'Shop' menu option should exist");
-        shopMenu.click();
+//        assertNotNull(shopMenu, "'Shop' menu option should exist");
+//        shopMenu.click();
 
-        List<MenuItem> shopMenuItems = secondaryNavBar.getShopDropdownMenu();
-        MenuItem nhlShopItem = shopMenuItems.stream()
-                .filter(item -> item.getTextValue().equals("NHL Shop"))
-                .findFirst()
-                .orElse(null);
+//        List<MenuItem> shopMenuItems = secondaryNavBar.getShopDropdownMenu();
+//        MenuItem nhlShopItem = shopMenuItems.stream()
+//                .filter(item -> item.getTextValue().equals("NHL Shop"))
+//                .findFirst()
+//                .orElse(null);
 
-        assertNotNull(nhlShopItem, "'NHL Shop' item should be present on the dropdown list");
-        nhlShopItem.click();
+        secondaryNavBar.clickShopDropdownItem(ShopDropdownItems.NHL_SHOP);
+
+//        assertNotNull(nhlShopItem, "'NHL Shop' item should be present on the dropdown list");
+//        nhlShopItem.click();
+
         assertTrue(page.getCurrentUrl().contains("shop.international.nhl.com"), "Page URL should match with expected.");
 
     }
@@ -191,14 +194,13 @@ public class HomePageTest extends AbstractTest {
 
         page.closeModalIfPresent();
 
-        if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
-            header.getSecondaryNavBar().hoverHamburgerMenu();
-            header.getSecondaryNavBar().clickHamburgerMenu();
-
-            Actions actions = new Actions(driver);
-            actions.scrollByAmount(0, 100);
-            actions.perform();
-        }
+//        if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
+//            header.getSecondaryNavBar().clickHamburgerMenu();
+//
+//            Actions actions = new Actions(driver);
+//            actions.scrollByAmount(0, 100);
+//            actions.perform();
+//        }
 
         assertTrue(header.isLanguageButtonPresent(), "Change language button must be present");
 
@@ -338,6 +340,71 @@ public class HomePageTest extends AbstractTest {
                 , "The account credentials you entered did not match our records. Please check to make sure you entered them correctly.");
 
         sa.assertAll();
+    }
+
+    @Test
+    public void verifyOpenNhlShopPageAndCheckProductsLabelsTest() {
+        SoftAssert sa = new SoftAssert();
+        WebDriver driver = getDriver();
+        HomePageBase page = initPage(driver, HomePageBase.class);
+
+        page.open();
+
+        Header header = page.getHeader();
+        SecondaryNavBar secondaryNavBar = header.getSecondaryNavBar();
+
+        header.clickMenuItem(MenuOptions.SHOP);
+
+        secondaryNavBar.clickShopDropdownItem(ShopDropdownItems.MEN);
+        ShopPageBase shopPage = initPage(driver, ShopPageBase.class);
+
+        assertTrue(shopPage.getCurrentUrl().contains(URLs.SHOP_MEN.getUrl()), "Shop menu item should redirect to appropriate URL");
+
+        if (shopPage.isPopupPresent()) {
+            shopPage.clickClosePopup();
+        }
+
+        List<ProductCard> productCards = shopPage.getProductCards();
+        productCards.stream().forEach(product -> {
+            sa.assertTrue(product.isPricePresent(), "Each product should have price visible");
+            sa.assertTrue(product.getPriceValue() > 0.0, "Each price should be higher than 0.0");
+
+            sa.assertTrue(product.isTitlePresent(), "Title of product card should be present");
+            sa.assertTrue((product.getTitleText().contains("Men's")), "Each of product title in Men's shop should contain 'Men's' word");
+        });
+
+        sa.assertAll();
+    }
+
+    @Test
+    public void verifyOpenNhlShopPageAndCheckProductPageTest() {
+        WebDriver driver = getDriver();
+        HomePageBase page = initPage(driver, HomePageBase.class);
+
+        page.open();
+
+        Header header = page.getHeader();
+        SecondaryNavBar secondaryNavBar = header.getSecondaryNavBar();
+
+        header.clickMenuItem(MenuOptions.SHOP);
+
+        secondaryNavBar.clickShopDropdownItem(ShopDropdownItems.MEN);
+        ShopPageBase shopPage = initPage(driver, ShopPageBase.class);
+
+        assertTrue(shopPage.getCurrentUrl().contains(URLs.SHOP_MEN.getUrl()), "Shop menu item should redirect to appropriate URL");
+
+        if (shopPage.isPopupPresent()) {
+            shopPage.clickClosePopup();
+        }
+
+        ProductCard product = shopPage.selectRandomProductCard();
+        String title = product.getTitleText();
+
+        product.clickProductCard();
+        ProductPageBase productPage = initPage(driver, ProductPageBase.class);
+
+        assertEquals(title, productPage.getProductTitleText(), "Product titles must match each other before and after clicking certain product");
+
     }
 
 }
