@@ -39,6 +39,8 @@ public class HomePageTest extends AbstractTest {
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
+        page.closeModalIfPresent();
+
         assertTrue(page.isPageOpened(), "Page should be opened");
         sa.assertEquals(page.getTitle(), "Official Site of the National Hockey League | NHL.com", "Page title should be as expected");
         sa.assertAll();
@@ -62,6 +64,7 @@ public class HomePageTest extends AbstractTest {
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
+        page.closeModalIfPresent();
 
         assertTrue(page.getHeader().isSearchButtonPresent(), "Search button must be present");
         SearchPage searchPage = page.getHeader().clickSearchButton();
@@ -95,6 +98,7 @@ public class HomePageTest extends AbstractTest {
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
+        page.closeModalIfPresent();
 
         Footer footer = page.getFooter();
         List<MenuItem> socialMenuItems = footer.getSocial();
@@ -189,10 +193,10 @@ public class HomePageTest extends AbstractTest {
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
+        page.closeModalIfPresent();
 
         Header header = page.getHeader();
 
-        page.closeModalIfPresent();
 
 //        if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
 //            header.getSecondaryNavBar().clickHamburgerMenu();
@@ -231,10 +235,10 @@ public class HomePageTest extends AbstractTest {
         HomePageBase page = initPage(driver, HomePageBase.class);
 
         page.open();
+        page.closeModalIfPresent();
 
         Header header = page.getHeader();
 
-        page.closeModalIfPresent();
 
         if (header.getSecondaryNavBar().isHamburgerMenuButtonPresent()) {
             header.getSecondaryNavBar().clickHamburgerMenu();
@@ -365,7 +369,7 @@ public class HomePageTest extends AbstractTest {
         }
 
         List<ProductCard> productCards = shopPage.getProductCards();
-        productCards.stream().forEach(product -> {
+        productCards.forEach(product -> {
             sa.assertTrue(product.isPricePresent(), "Each product should have price visible");
             sa.assertTrue(product.getPriceValue() > 0.0, "Each price should be higher than 0.0");
 
@@ -378,6 +382,7 @@ public class HomePageTest extends AbstractTest {
 
     @Test
     public void verifyOpenNhlShopPageAndCheckProductPageTest() {
+        SoftAssert sa = new SoftAssert();
         WebDriver driver = getDriver();
         HomePageBase page = initPage(driver, HomePageBase.class);
 
@@ -399,11 +404,14 @@ public class HomePageTest extends AbstractTest {
 
         ProductCard product = shopPage.selectRandomProductCard();
         String title = product.getTitleText();
+        double price = product.getPriceValue();
 
         product.clickProductCard();
         ProductPageBase productPage = initPage(driver, ProductPageBase.class);
 
-        assertEquals(title, productPage.getProductTitleText(), "Product titles must match each other before and after clicking certain product");
+        sa.assertEquals(title, productPage.getProductTitleText(), "Product titles must match each other before and after clicking certain product");
+        sa.assertEquals(price, productPage.getPriceValue(), "Product prices must match each other before and after clicking certain product.");
+        sa.assertAll();
 
     }
 
