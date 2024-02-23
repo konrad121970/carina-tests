@@ -48,9 +48,6 @@ public class SecondaryNavBar extends AbstractUIObject {
     }
 
     public void clickShopDropdownItem(ShopDropdownItems dropdownItem) {
-        if (isHamburgerMenuButtonPresent()) {
-            clickHamburgerMenu();
-        }
         shopDropdownMenu.stream().filter(option -> option.getTextValue().equals(dropdownItem.getName())).findFirst().get().click();
     }
 }
